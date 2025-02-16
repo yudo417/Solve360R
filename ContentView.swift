@@ -21,40 +21,59 @@ struct ContentView: View {
 }
 
 struct ARViewContainer: UIViewRepresentable {
+    let arView = ARView(frame: .zero)
+
     func makeUIView(context: Context) -> ARView {
-        let arView = ARView(frame: .zero)
         let configuration = ARWorldTrackingConfiguration()
-                configuration.planeDetection = [.horizontal, .vertical]
+                configuration.planeDetection = [.horizontal]
                 arView.session.run(configuration)
-        let anchor = AnchorEntity(world: [0,-0.3,-1.2])
 
-        // ARセッションの設定
-        let plate = MeshResource.generateBox(size: [0.5,0.01,0.5])
-        let plateMaterial = SimpleMaterial(color: .white, isMetallic: true)
-        let modelEntity = ModelEntity(mesh: plate, materials: [plateMaterial])
-        let PlateEntity = ModelEntity(mesh: .generateBox(size: [0.5,0.5,0.01]), materials: [SimpleMaterial(color: .white, isMetallic: true)])
-
-
-        modelEntity.transform = Transform(
-            translation: [-0.15,0.15,0]
-            )
-        if let usdzModel = try? ModelEntity.loadModel(named: "1_9") {
-            let kadoAnchor = AnchorEntity(world: [0,0,-2])
-            usdzModel.transform = Transform(
-                scale: [0.05,0.05,0.05], rotation: simd_quatf(angle:  0, axis: [1,0,0]), translation: [0,0,0]
-                )
-            kadoAnchor.addChild(usdzModel)
-            arView.scene.addAnchor(kadoAnchor)
-            print("あった")
-        }
-        DispatchQueue.main.asyncAfter(deadline:.now() + 10){
-            print("きた")
-            arView.scene.addAnchor(anchor)
-        }
+        arView.session.delegate = context.coordinator
         return arView
     }
 
     func updateUIView(_ uiView: ARView, context: Context) {
         // 更新が必要な場合に使用
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    @MainActor
+    class Coordinator:NSObject,ARSessionDelegate {
+        var parent : ARViewContainer
+
+        init(_ parent: ARViewContainer) {
+            self.parent = parent
+        }
+
+        nonisolated func session(_ session:ARSession,didAdd anchors:[ARAnchor]){
+            Task { @MainActor [weak self] in
+                            guard let self = self else { return }
+                            self.handleDidAddAnchors(anchors)
+                        }
+        }
+
+        func handleDidAddAnchors(_ anchors:[ARAnchor]) {
+            for anchor in anchors {
+
+                if let planeAnchor = anchor as? ARPlaneAnchor {
+
+                    let anchorEntity = AnchorEntity(anchor:planeAnchor)
+
+
+                    // ARセッションの設定
+                    if let usdzModel = try? ModelEntity.loadModel(named: "1_9") {
+                        usdzModel.transform = Transform(
+                            scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]), translation: [0,0,0]
+                            )
+                        anchorEntity.addChild(usdzModel)
+                        print("あった")
+                    }
+                    parent.arView.scene.addAnchor(anchorEntity)
+
+                }
+            }
+        }
     }
 }
