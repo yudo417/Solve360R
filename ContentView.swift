@@ -40,11 +40,11 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-                                ZStack{
+                                Button{
+                                    NotificationCenter.default.post(name: .genereteBox, object: nil)
+                                } label: {
                                     Capsule()
-                                        .foregroundStyle(.black).opacity(0.4)
-                                    Text("決定")
-                                        .font(.title2)
+                                        .frame(width: 300, height: 200)
                                 }
                                 .frame(width: 300,height: 100)
                             }
@@ -84,9 +84,12 @@ struct ARViewContainer: UIViewRepresentable {
         var parent : ARViewContainer
 
         private var IsPlacedObject = false
+        var anchorMain : AnchorEntity?  //メイン用に（参照）
 
         init(_ parent: ARViewContainer) {
             self.parent = parent
+            super.init()
+            NotificationCenter.default.addObserver(self, selector: #selector(generateBoxes), name: .genereteBox, object: nil)
         }
 
         nonisolated func session(_ session:ARSession,didAdd anchors:[ARAnchor]){
@@ -119,6 +122,7 @@ struct ARViewContainer: UIViewRepresentable {
                         planeAnchor.transform.columns.3.z
                     )
                     let anchorEntity = AnchorEntity(world: planePosition)
+                    self.anchorMain = anchorEntity
 
 
                     // ARセッションの設定
@@ -142,6 +146,7 @@ struct ARViewContainer: UIViewRepresentable {
             switch putitemkind{
             case .NumberBox:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
+                    usdzModel.name = "NumberBox"
                     usdzModel.transform = Transform(
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  -.pi/2 : 0 , axis: [0,0,1]), translation:translation
                     )
@@ -150,6 +155,7 @@ struct ARViewContainer: UIViewRepresentable {
                 }
             case .sign:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
+                    usdzModel.name = "sign"
                     usdzModel.transform = Transform(
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  .pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  .pi/2 : .pi , axis: [0,0,1]), translation:translation
                     )
@@ -158,6 +164,7 @@ struct ARViewContainer: UIViewRepresentable {
                 }
             case .QuestionBox:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
+                    usdzModel.name = "QuestionBox"
                     usdzModel.transform = Transform(
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle:  -.pi/2, axis: [0,0,1]), translation:translation
                     )
@@ -166,5 +173,28 @@ struct ARViewContainer: UIViewRepresentable {
                 }
             }
         }
+
+        func removeOnlyNumberBoxes(anchor: AnchorEntity) {
+
+            for child in anchor.children {
+                if child.name == "NumberBox" {
+                    child.removeFromParent()
+                }
+            }
+        }
+
+        @objc func generateBoxes(){
+
+            guard let anchor = anchorMain else { return }
+
+            removeOnlyNumberBoxes(anchor: anchor)
+                removeOnlyNumberBoxes(anchor: anchor)
+            PutItem(translation: [-0.4,0,0], itemname: "1_1", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//左（弱い）
+            PutItem(translation: [0.4,0,0], itemname: "9_9", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//右（強い）
+            PutItem(translation: [0,0,0.4], itemname: "2_2", anchorentity: anchor, putitemkind: .NumberBox)//前（弱い）
+            PutItem(translation: [0,0,-0.4], itemname: "8_8", anchorentity: anchor, putitemkind: .NumberBox)//後（強い）
+            print("ボックスの更新した")
+        }
+
     }
 }
