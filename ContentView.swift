@@ -74,32 +74,36 @@ struct ARViewContainer: UIViewRepresentable {
 
                 if let planeAnchor = anchor as? ARPlaneAnchor {
 
-                    let anchorEntity = AnchorEntity(anchor:planeAnchor)
+                    let planePosition = SIMD3<Float>(
+                                            planeAnchor.transform.columns.3.x,
+                                            planeAnchor.transform.columns.3.y,
+                                            planeAnchor.transform.columns.3.z
+                                        )
+                    let anchorEntity = AnchorEntity(world: planePosition)
 
 
                     // ARセッションの設定
-                    if let usdzModel = try? ModelEntity.loadModel(named: "questionBox2") {
+                    if let usdzModel = try? ModelEntity.loadModel(named: "4_7") {
                         usdzModel.transform = Transform(
-                            scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]), translation: [0,0,0]
+                            scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle:  -.pi/2, axis: [0,0,1]), translation: [0,0,0]
                             )
                         anchorEntity.addChild(usdzModel)
                         print("あった")
 
-                        let animations = usdzModel.availableAnimations
-                                               if let firstAnim = animations.first {
-                                                   // 無限ループで再生したい場合
-                                                   usdzModel.playAnimation(
-                                                       firstAnim,
-                                                       transitionDuration: 0.2,
-                                                       startsPaused: false
-                                                   )
-
-                                                   print("アニメーションを再生開始")
-                                               } else {
-                                                   print("アニメーションが見つからなかった")
-                                               }
+                        parent.arView.scene.addAnchor(anchorEntity)
+                        
                     }
-                    parent.arView.scene.addAnchor(anchorEntity)
+
+                    if let usdzModel = try? ModelEntity.loadModel(named: "8_3") {
+                        usdzModel.transform = Transform(
+                            scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle:  -.pi/2, axis: [0,0,1]), translation: [0,0,-0.2]
+                            )
+                        anchorEntity.addChild(usdzModel)
+                        print("あった")
+
+                        parent.arView.scene.addAnchor(anchorEntity)
+                        
+                    }
 
                     IsPlacedObject = true
 
