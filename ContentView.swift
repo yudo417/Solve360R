@@ -18,8 +18,41 @@ enum PutItemKind {
 
 struct ContentView: View {
     var body: some View {
-        ARViewContainer()
-            .padding()
+        ZStack{
+            ARViewContainer()
+                .padding()
+            VStack{
+                Spacer()
+                ZStack{
+                    Rectangle()
+                        .frame(height: 300)
+                        .opacity(0.5)
+                        .overlay {
+                            VStack{
+                                HStack{
+                                    ForEach(1..<10){i in
+                                        ZStack{
+                                            Circle()
+                                                .foregroundStyle(.blue).opacity(0.6)
+                                            Text("\(i)")
+                                                .font(.title2)
+
+                                        }
+                                    }
+                                }
+                                ZStack{
+                                    Capsule()
+                                        .foregroundStyle(.black).opacity(0.4)
+                                    Text("決定")
+                                        .font(.title2)
+                                }
+                                .frame(width: 300,height: 100)
+                            }
+                            .padding()
+                        }
+                }
+            }
+        }
     }
 }
 
@@ -89,11 +122,15 @@ struct ARViewContainer: UIViewRepresentable {
 
 
                     // ARセッションの設定
-                    PutItem(translation: [-0.4,0,0], itemname: "4_7", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)
+                    PutItem(translation: [-0.4,0,0], itemname: "4_3", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)//左（弱い）
                     PutItem(translation: [-0.2,0,0], itemname: "sign", anchorentity: anchorEntity,putitemkind: .sign)
                     PutItem(translation: [0,0,0], itemname: "questionBox", anchorentity: anchorEntity,putitemkind: .QuestionBox)
                     PutItem(translation: [0.2,0,0], itemname: "sign", anchorentity: anchorEntity,putitemkind: .sign)
-                    PutItem(translation: [0.4,0,0], itemname: "8_3", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)
+                    PutItem(translation: [0.4,0,0], itemname: "7_3", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)//右（強い）
+                    PutItem(translation: [0,0,0.4], itemname: "2_1", anchorentity: anchorEntity, putitemkind: .NumberBox)//前（弱い）
+                    PutItem(translation: [0,0,0.2], itemname: "sign", anchorentity: anchorEntity, putitemkind: .sign,IsRotation: true)
+                    PutItem(translation: [0,0,-0.2], itemname: "sign", anchorentity: anchorEntity, putitemkind: .sign,IsRotation: true)
+                    PutItem(translation: [0,0,-0.4], itemname: "9_8", anchorentity: anchorEntity, putitemkind: .NumberBox)//後（強い）
 
                     IsPlacedObject = true
 
@@ -114,7 +151,7 @@ struct ARViewContainer: UIViewRepresentable {
             case .sign:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
                     usdzModel.transform = Transform(
-                        scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  .pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  -.pi/2 : .pi , axis: [0,1,0]), translation:translation
+                        scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  .pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  .pi/2 : .pi , axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
                     parent.arView.scene.addAnchor(anchorentity)
