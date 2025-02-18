@@ -24,7 +24,7 @@ struct ExclusiveRangeConstraint {
     }
 }
 
-final class PuzzleGenerator {
+ class FomulaGenerate {
 
     // (a, b) の候補一覧を全乗せ
     private let allConstraints: [ExclusiveRangeConstraint]
@@ -40,7 +40,7 @@ final class PuzzleGenerator {
         self.allConstraints = list
     }
 
-    func generateExclusivePuzzle() -> ([ExclusiveRangeConstraint], Int) {
+    func genefomula() -> ([ExclusiveRangeConstraint], Int) {
         while true {
             //最終的な解をsとしてランダムでなんかを解にしとく
             let s = Int.random(in: 1...9)
@@ -62,6 +62,12 @@ final class PuzzleGenerator {
             }
 
             if unique {
+                print("生成完了")
+                print("\(constraints[0].lower),\(constraints[0].upper)")
+                print("\(constraints[1].lower),\(constraints[1].upper)")
+                print("\(constraints[2].lower),\(constraints[2].upper)")
+                print("\(constraints[3].lower),\(constraints[3].upper)")
+                print("解は＝\(s)")
                 return (constraints, s)//不等式の配列、最終的な解
             }
         }

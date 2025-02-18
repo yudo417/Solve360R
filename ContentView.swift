@@ -43,8 +43,11 @@ struct ContentView: View {
                                 Button{
                                     NotificationCenter.default.post(name: .genereteBox, object: nil)
                                 } label: {
-                                    Capsule()
-                                        .frame(width: 300, height: 200)
+                                    ZStack{
+                                        Capsule()
+                                            .frame(width: 250, height: 100)
+                                        Text("決定")
+                                    }
                                 }
                                 .frame(width: 300,height: 100)
                             }
@@ -79,12 +82,17 @@ struct ARViewContainer: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
+    // -MARK: MainActor
     @MainActor
     class Coordinator:NSObject,ARSessionDelegate {
-        var parent : ARViewContainer
 
         private var IsPlacedObject = false
+        var parent : ARViewContainer
+        let fomulagenerate = FomulaGenerate()//不等式生成クラス
         var anchorMain : AnchorEntity?  //メイン用に（参照）
+        var generatedFomula:[ExclusiveRangeConstraint] = []
+        var generatedAnswer: Int = 0
+
 
         init(_ parent: ARViewContainer) {
             self.parent = parent
@@ -123,6 +131,11 @@ struct ARViewContainer: UIViewRepresentable {
                     )
                     let anchorEntity = AnchorEntity(world: planePosition)
                     self.anchorMain = anchorEntity
+                    parent.arView.scene.addAnchor(anchorEntity)
+
+                    let newConfig = ARWorldTrackingConfiguration()
+                               newConfig.planeDetection = []
+                               parent.arView.session.run(newConfig)
 
 
                     // ARセッションの設定
@@ -151,7 +164,7 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  -.pi/2 : 0 , axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-                    parent.arView.scene.addAnchor(anchorentity)
+//                    parent.arView.scene.addAnchor(anchorentity)
                 }
             case .sign:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
@@ -160,7 +173,7 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  .pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  .pi/2 : .pi , axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-                    parent.arView.scene.addAnchor(anchorentity)
+//                    parent.arView.scene.addAnchor(anchorentity)
                 }
             case .QuestionBox:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
@@ -169,18 +182,32 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle:  -.pi/2, axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-                    parent.arView.scene.addAnchor(anchorentity)
+//                    parent.arView.scene.addAnchor(anchorentity)
                 }
             }
         }
 
         func removeOnlyNumberBoxes(anchor: AnchorEntity) {
 
-            for child in anchor.children {
-                if child.name == "NumberBox" {
+//            for child in anchor.children {
+//                if child.name == "NumberBox" {
+//                    child.removeFromParent()
+//                }
+//            }
+            // 1) 削除前に子を全部表示
+                print("=== removeOnlyNumberBoxes START ===")
+
+                while let child = anchor.children.first(where: { $0.name == "NumberBox" }) {
+                    print("   --> Removing \(child.name)")
                     child.removeFromParent()
                 }
-            }
+
+                print("After removal, anchor has \(anchor.children.count) children:")
+                for child in anchor.children {
+                    print("   child left = \(child.name)")
+                }
+                print("=== removeOnlyNumberBoxes END ===")
+
         }
 
         @objc func generateBoxes(){
@@ -188,12 +215,17 @@ struct ARViewContainer: UIViewRepresentable {
             guard let anchor = anchorMain else { return }
 
             removeOnlyNumberBoxes(anchor: anchor)
-                removeOnlyNumberBoxes(anchor: anchor)
-            PutItem(translation: [-0.4,0,0], itemname: "1_1", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//左（弱い）
-            PutItem(translation: [0.4,0,0], itemname: "9_9", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//右（強い）
-            PutItem(translation: [0,0,0.4], itemname: "2_2", anchorentity: anchor, putitemkind: .NumberBox)//前（弱い）
-            PutItem(translation: [0,0,-0.4], itemname: "8_8", anchorentity: anchor, putitemkind: .NumberBox)//後（強い）
-            print("ボックスの更新した")
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else { return }
+
+                (self.generatedFomula,self.generatedAnswer) = fomulagenerate.genefomula()
+                PutItem(translation: [-0.4,0,0], itemname: "\(generatedFomula[0].lower)_\(generatedFomula[1].lower)", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//左（弱い）
+                PutItem(translation: [0.4,0,0], itemname: "\(generatedFomula[0].upper)_\(generatedFomula[1].upper)", anchorentity: anchor,putitemkind: .NumberBox,IsRotation: true)//右（強い）
+                PutItem(translation: [0,0,0.4], itemname: "\(generatedFomula[2].lower)_\(generatedFomula[3].lower)", anchorentity: anchor, putitemkind: .NumberBox)//前（弱い）
+                PutItem(translation: [0,0,-0.4], itemname: "\(generatedFomula[2].upper)_\(generatedFomula[3].upper)", anchorentity: anchor, putitemkind: .NumberBox)//後（強い）
+                print("ボックスの更新した")
+            }
         }
 
     }
