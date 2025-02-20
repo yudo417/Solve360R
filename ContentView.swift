@@ -17,6 +17,28 @@ enum PutItemKind {
 }
 
 struct ContentView: View {
+    let buttonGradient = Gradient(stops: [
+        .init(color: Color.white.opacity(0.7), location: 0.0),
+        .init(color: Color.cyan.opacity(0.7), location: 0.7),
+        .init(color: Color.blue.opacity(0.7), location: 1.0),
+                                         ])
+    let answerGradient = Gradient(colors: [
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),  // 深いネイビーブルー
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),  // 深いネイビーブルー
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),
+        Color(red: 0.0, green: 0.4, blue: 0.8).opacity(0.7),   // 鮮やかなシアン
+        Color(red: 0.0, green: 0.2, blue: 0.7).opacity(0.7),  // 深いネイビーブルー
+        ])
     var body: some View {
         ZStack{
             ARViewContainer()
@@ -32,12 +54,18 @@ struct ContentView: View {
                                 HStack{
                                     ForEach(1..<10){i in
                                         ZStack{
+//                                            Circle()
+//                                                .frame(width: 40, height: 40)
+//                                                .foregroundStyle(.black)
                                             Circle()
-                                                .foregroundStyle(.blue).opacity(0.6)
+                                                .fill(
+                                                    LinearGradient(gradient: buttonGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+                                                )
                                             Text("\(i)")
-                                                .font(.title2)
+                                                .font(.system(size: 30))
 
                                         }
+                                        .padding(3)
                                     }
                                 }
                                 Button{
@@ -45,10 +73,13 @@ struct ContentView: View {
                                 } label: {
                                     ZStack{
                                         Capsule()
+                                            .fill(
+                                                LinearGradient(gradient: answerGradient, startPoint: .leading, endPoint: .trailing)
+                                            )
                                             .frame(width: 250, height: 100)
                                         Text("決定")
                                     }
-                                }
+                                }.buttonStyle(.plain)
                                 .frame(width: 300,height: 100)
                             }
                             .padding()
