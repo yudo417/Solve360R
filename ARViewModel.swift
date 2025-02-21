@@ -9,6 +9,8 @@ import Foundation
 
 class ARViewModel:NSObject,ObservableObject{
     var coordinator:ARViewContainer.Coordinator?
+    @Published var generatedAnswer: Int = 0
+
     @MainActor func compareNumber(){
         coordinator?.dop()
     }

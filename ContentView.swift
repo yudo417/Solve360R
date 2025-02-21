@@ -203,7 +203,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
 
         func dop(){
-            print("coordinator")
+            print("gene:\(parent.vm.generatedAnswer)")
         }
 
     }
