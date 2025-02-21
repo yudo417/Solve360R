@@ -200,6 +200,7 @@ struct ARViewContainer: UIViewRepresentable {
                 PutItem(translation: [0,0,-0.4], itemname: "\(generatedFomula[2].upper)_\(generatedFomula[3].upper)", anchorentity: anchor, putitemkind: .NumberBox)//後（強い）
                 print("ボックスの更新した")
             }
+            
         }
 
         func dop(){
