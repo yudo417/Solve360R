@@ -61,6 +61,9 @@ struct ARSwiftUIView: View {
                             ForEach(0..<nowlife,id:\.self) { _ in
                                 Image(systemName: "heart.fill").foregroundStyle(.red)
                             }
+                            ForEach(nowlife..<3,id:\.self) { _ in
+                                Image(systemName: "heart").foregroundStyle(.red)
+                            }
                         }
                     }
                 }.frame(width: 400, height: 60)
@@ -98,7 +101,7 @@ struct ARSwiftUIView: View {
         .onAppear { // ビューが表示されたらタイマー開始
                     startTimer()
                 }
-        .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
+        .onReceive(Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()) { _ in
             if isGameStarted && !isGameFinished && timeRemaining > 0 {
                 if timeRemaining != 0 {
                     timeRemaining -= 0.1
@@ -255,16 +258,25 @@ extension ARSwiftUIView {
 
 struct resultView:View{
     @ObservedObject var vm : ARViewModel
+    @Binding var path:[Screen]
     var body: some View{
-        VStack{
-            Spacer()
-            Spacer()
-            Text("Your record")
-            Text("Your \(vm.recordcount)")
-            Spacer()
-            Text("Tap and Go Title")
-            Spacer()
+        ZStack{
+            Color.white.opacity(0.001)
+            VStack{
+                Spacer()
+                Spacer()
+                Text("Your record")
+                Text(" \(vm.recordcount) Correct Answer")
+                Spacer()
+                Text("Tap and Go Title")
+                Spacer()
+            }
         }
         .font(.title)
+        .onTapGesture {
+            path = []
+            vm.recordcount = 0
+
+        }
     }
 }

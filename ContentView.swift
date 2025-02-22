@@ -19,17 +19,71 @@ enum PutItemKind {
 
 struct homeView:View{
     var onStart:() -> Void
+    var isTutrial:Bool = false
+    @State var isInitalTutrial:Bool = true
     var body:some View{
         VStack{
-            Text("Home Screen")
-            Button {
-                onStart()
-            } label: {
-                Text("start")
+            Spacer()
+            VStack{
+                Text("SpinSolve360").font(.system(size:50))
             }
+            Spacer()
+            HStack{
+                Spacer()
+                    if isInitalTutrial{
+                        Button {
+                            isInitalTutrial = false
+                        } label: {
+                            ZStack{
+                                Circle().foregroundStyle(.blue)
+                                    .frame(width: 150, height: 150)
+                                Text("How?").font(.title).fontWeight(.bold)
+                            }
+                        }.buttonStyle(.plain)
+                    }else{
+                        ZStack{
+                            Circle()
+                                .foregroundStyle(.gray)
+                                .frame(width: 150, height: 150)
+                            Text("How?").font(.title).fontWeight(.bold)
+                        }
+                    }
+
+                Spacer()
+
+                if isInitalTutrial{
+
+                        ZStack{
+                            Circle().foregroundStyle(.gray)
+                                .frame(width: 150, height: 150)
+                            Text("Play!").font(.title).fontWeight(.bold)
+                        }
+
+                }else{
+                    Button {
+                        onStart()
+                    } label: {
+                        ZStack{
+                            Circle().foregroundStyle(.blue)
+                                .frame(width: 150, height: 150)
+                            Text("Play!").font(.title).fontWeight(.bold)
+                        }
+                    }.buttonStyle(.plain)
+                }
+
+
+                Spacer()
+            }
+
+            Spacer()
 
         }
     }
+}
+enum Screen: Hashable {
+    case home
+    case game
+    case result
 }
 
 struct ContentView: View {
@@ -41,38 +95,43 @@ struct ContentView: View {
     @State var isGameFinished = false
     @State var recordCount:Int = 0
     @State var isresult : Bool = false
+    @State  var path = [Screen]()
     var body: some View {
 
-        NavigationStack{
+        NavigationStack(path:$path){
 
-
-            ZStack{
-                ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult)
-                    .padding()
-                ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
-
-    //            if isGameFinished {
-    //                Group{
-    //                        Color.gray.opacity(0.7)
-    //                        VStack{
-    //                            Spacer()
-    //                            Spacer()
-    //                            Text("Your record")
-    //                            Text("Correct Answers: \(recordCount)")
-    //                            Spacer()
-    //                            Text("Tap and Go Title")
-    //                            Spacer()
-    //                        }.font(.system(size:30))
-    //                    }
-    //                .onTapGesture {
-    //                    print("タイトルに戻る")
-    //                }
-    //            }
-            }.ignoresSafeArea(.all)
-                .navigationDestination(isPresented: $isresult){
-                    resultView(vm: vm)
+            homeView{
+                gameStateReset()
+                path.append(.game)
+            }
+            .navigationDestination(for: Screen.self) { screen in
+                switch screen {
+                case .home:
+                    homeView{
+                        gameStateReset()
+                        path.append(.game)
+                    }
+                case .game:
+                    ZStack{
+                        ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult,path: $path)
+                        ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+                            .navigationBarBackButtonHidden()
+                    }.ignoresSafeArea(.all)
+                case .result:
+                    resultView(vm:vm,path:$path)
+                        .navigationBarBackButtonHidden()
                 }
+            }
+
+
         }
+    }
+    func gameStateReset(){
+        isPlaneDetected = false
+        isGameStarted = false
+        isGameFinished = false
+        recordCount = 0
+        isresult = false
     }
 }
 
@@ -86,6 +145,7 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var isGameStarted :Bool
     @Binding var isGameFinished :Bool
     @Binding var isresult:Bool
+    @Binding var path:[Screen]
 
     func makeUIView(context: Context) -> ARView {
         let configuration = ARWorldTrackingConfiguration()
@@ -162,8 +222,8 @@ struct ARViewContainer: UIViewRepresentable {
                     parent.arView.scene.addAnchor(anchorEntity)
 
                     let newConfig = ARWorldTrackingConfiguration()
-                               newConfig.planeDetection = []
-                               parent.arView.session.run(newConfig)
+                    newConfig.planeDetection = []
+                    parent.arView.session.run(newConfig)
 
 
                     // ARセッションの設定
@@ -194,7 +254,7 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  -.pi/2 : 0 , axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-//                    parent.arView.scene.addAnchor(anchorentity)
+                    //                    parent.arView.scene.addAnchor(anchorentity)
                 }
             case .sign:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
@@ -203,7 +263,7 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  .pi/2, axis: [1,0,0]) * simd_quatf(angle: IsRotation ?  .pi/2 : .pi , axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-//                    parent.arView.scene.addAnchor(anchorentity)
+                    //                    parent.arView.scene.addAnchor(anchorentity)
                 }
             case .QuestionBox:
                 if let usdzModel = try? ModelEntity.loadModel(named:itemname){
@@ -212,31 +272,31 @@ struct ARViewContainer: UIViewRepresentable {
                         scale: [0.04,0.04,0.04], rotation: simd_quatf(angle:  -.pi/2, axis: [1,0,0]) * simd_quatf(angle:  -.pi/2, axis: [0,0,1]), translation:translation
                     )
                     anchorentity.addChild(usdzModel)
-//                    parent.arView.scene.addAnchor(anchorentity)
+                    //                    parent.arView.scene.addAnchor(anchorentity)
                 }
             }
         }
 
         func removeOnlyNumberBoxes(anchor: AnchorEntity) {
 
-//            for child in anchor.children {
-//                if child.name == "NumberBox" {
-//                    child.removeFromParent()
-//                }
-//            }
+            //            for child in anchor.children {
+            //                if child.name == "NumberBox" {
+            //                    child.removeFromParent()
+            //                }
+            //            }
             // 1) 削除前に子を全部表示
-//                print("=== removeOnlyNumberBoxes START ===")
+            //                print("=== removeOnlyNumberBoxes START ===")
 
-                while let child = anchor.children.first(where: { $0.name == "NumberBox" }) {
-//                    print("   --> Removing \(child.name)")
-                    child.removeFromParent()
-                }
+            while let child = anchor.children.first(where: { $0.name == "NumberBox" }) {
+                //                    print("   --> Removing \(child.name)")
+                child.removeFromParent()
+            }
 
-//                print("After removal, anchor has \(anchor.children.count) children:")
-//                for child in anchor.children {
-//                    print("   child left = \(child.name)")
-//                }
-//                print("=== removeOnlyNumberBoxes END ===")
+            //                print("After removal, anchor has \(anchor.children.count) children:")
+            //                for child in anchor.children {
+            //                    print("   child left = \(child.name)")
+            //                }
+            //                print("=== removeOnlyNumberBoxes END ===")
 
         }
 
@@ -263,65 +323,66 @@ struct ARViewContainer: UIViewRepresentable {
         func dop(){
         }
 
-         func OkSound() {
-                guard let url = Bundle.main.url(forResource: "quizOk", withExtension: "mp3") else { return }
+        func OkSound() {
+            guard let url = Bundle.main.url(forResource: "quizOk", withExtension: "mp3") else { return }
 
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-                    try AVAudioSession.sharedInstance().setActive(true)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
 
-                    okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+                okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
 
-                    guard let player = okplayer else { return }
+                guard let player = okplayer else { return }
 
-                    player.play()
+                player.play()
 
-                } catch {
-                    print(error.localizedDescription)
-                }
+            } catch {
+                print(error.localizedDescription)
             }
+        }
 
-         func OutSound() {
-                guard let url = Bundle.main.url(forResource: "quizOut", withExtension: "mp3") else { return }
+        func OutSound() {
+            guard let url = Bundle.main.url(forResource: "quizOut", withExtension: "mp3") else { return }
 
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-                    try AVAudioSession.sharedInstance().setActive(true)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
 
-                    okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+                okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
 
-                    guard let player = okplayer else { return }
+                guard let player = okplayer else { return }
 
-                    player.play()
+                player.play()
 
-                } catch {
-                    print(error.localizedDescription)
-                }
+            } catch {
+                print(error.localizedDescription)
             }
+        }
 
         func FinishSound() {
-                guard let url = Bundle.main.url(forResource: "finishWhistle", withExtension: "mp3") else { return }
+            guard let url = Bundle.main.url(forResource: "finishWhistle", withExtension: "mp3") else { return }
 
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-                    try AVAudioSession.sharedInstance().setActive(true)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
 
-                    finishplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+                finishplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
 
-                    guard let player = finishplayer else { return }
+                guard let player = finishplayer else { return }
 
-                    player.play()
+                player.play()
 
-                } catch {
-                    print(error.localizedDescription)
-                }
+            } catch {
+                print(error.localizedDescription)
             }
+        }
 
         @objc func finishAction(){
             parent.arView.session.pause()
-            parent.isresult = true
+            //            parent.isresult = true
+            parent.path.append(.result)
             parent.vm.coordinator?.FinishSound()
-//            parent.isGameFinished = true
+            //            parent.isGameFinished = true
         }
 
     }
