@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct NumberButton:Identifiable {
     let id = UUID()
@@ -19,6 +20,9 @@ struct ARSwiftUIView: View {
     @State var numberbutton:[NumberButton] = (1...9).map{ NumberButton(isselected: false, number: $0) }
     @State var selectedNumber:Int = 0
     @ObservedObject var vm : ARViewModel
+    @State var nowlife : Int = 3
+    @Binding var isdamaged : Bool
+    @State var damagedTimer : Timer?
 
     let buttonGradient = Gradient(stops: [
         .init(color: Color.white.opacity(0.8), location: 0.0),
@@ -42,6 +46,20 @@ struct ARSwiftUIView: View {
     var body: some View {
 
         VStack{
+            HStack{
+                Spacer()
+                HStack{
+                    ForEach(0..<nowlife,id:\.self) { _ in
+                        Image(systemName: "heart.fill").foregroundStyle(.red)
+                    }
+                }
+                Spacer()
+                Spacer()
+                Spacer()
+                Text("Timer")
+                Spacer()
+            }.font(.title)
+                .padding(.top,20)
             Spacer()
             ZStack{
                 RoundedRectangle(cornerRadius: 60)
@@ -70,7 +88,7 @@ extension ARSwiftUIView {
                 Button {
                     numberbutton.map{numberbutton[$0.number - 1].isselected = false}
                     numberbutton[nb.number - 1].isselected = true
-                    selectedNumber = nb.number
+                    vm.selectedNumber = nb.number
 
                 } label: {
                     ZStack{
@@ -108,14 +126,16 @@ extension ARSwiftUIView {
 
     private var answerButton : some View{
         Button{//Answer Button
-            print("Selected Number : \(selectedNumber)")
-            vm.coordinator?.dop()
-            if !(selectedNumber == 0){
+            print("Selected Number : \(vm.selectedNumber)")
+            print("Generated Number : \(vm.generatedAnswer)")
+            vm.compareNumber()
+            judgeHP()
+            if !(vm.selectedNumber == 0){
                 withAnimation(.easeIn) {
-                    numberbutton[selectedNumber - 1].isselected = false
+                    numberbutton[vm.selectedNumber - 1].isselected = false
                 }
             }
-            selectedNumber = 0
+            vm.selectedNumber = 0
             NotificationCenter.default.post(name: .genereteBox, object: nil)
         } label: {
             if numberbutton.allSatisfy{ !$0.isselected }{
@@ -144,4 +164,22 @@ extension ARSwiftUIView {
         }.buttonStyle(.plain)
             .frame(width: 300,height: 100)
     }
+
+    func judgeHP(){
+        if (!(vm.isCorrect ?? false)) && nowlife == 1{
+            print("gameOver")
+
+            vm.coordinator?.OutSound()
+            nowlife = 3
+        }else if !(vm.isCorrect ?? false){
+            vm.coordinator?.OutSound()
+            nowlife -= 1
+        }else{
+            vm.coordinator?.OkSound()
+            print("OK")
+        }
+    }
+
+
+
 }

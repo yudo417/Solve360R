@@ -9,6 +9,7 @@ import SwiftUI
 import RealityKit
 import ARKit
 import UIKit
+import AVFoundation
 
 enum PutItemKind {
     case NumberBox
@@ -19,13 +20,20 @@ enum PutItemKind {
 struct ContentView: View {
 
     @StateObject var vm = ARViewModel()
+    @State var isdamaged = false
     var body: some View {
 
         ZStack{
             ARViewContainer(vm:vm)
                 .padding()
-            ARSwiftUIView(vm:vm)
-        }
+            ARSwiftUIView(vm:vm,isdamaged: $isdamaged)
+
+            if isdamaged {
+                Color.red
+                    .opacity(0.3)
+                    .transition(.opacity)
+            }
+        }.ignoresSafeArea(.all)
     }
 }
 
@@ -66,6 +74,8 @@ struct ARViewContainer: UIViewRepresentable {
         var anchorMain : AnchorEntity?  //メイン用に（参照）
         var generatedFomula:[ExclusiveRangeConstraint] = []
         var generatedAnswer: Int = 0
+        var okplayer: AVAudioPlayer?
+        var outplayer: AVAudioPlayer?
 
 
         init(_ parent: ARViewContainer) {
@@ -169,18 +179,18 @@ struct ARViewContainer: UIViewRepresentable {
 //                }
 //            }
             // 1) 削除前に子を全部表示
-                print("=== removeOnlyNumberBoxes START ===")
+//                print("=== removeOnlyNumberBoxes START ===")
 
                 while let child = anchor.children.first(where: { $0.name == "NumberBox" }) {
-                    print("   --> Removing \(child.name)")
+//                    print("   --> Removing \(child.name)")
                     child.removeFromParent()
                 }
 
-                print("After removal, anchor has \(anchor.children.count) children:")
-                for child in anchor.children {
-                    print("   child left = \(child.name)")
-                }
-                print("=== removeOnlyNumberBoxes END ===")
+//                print("After removal, anchor has \(anchor.children.count) children:")
+//                for child in anchor.children {
+//                    print("   child left = \(child.name)")
+//                }
+//                print("=== removeOnlyNumberBoxes END ===")
 
         }
 
@@ -199,13 +209,48 @@ struct ARViewContainer: UIViewRepresentable {
                 PutItem(translation: [0,0,0.4], itemname: "\(generatedFomula[2].lower)_\(generatedFomula[3].lower)", anchorentity: anchor, putitemkind: .NumberBox)//前（弱い）
                 PutItem(translation: [0,0,-0.4], itemname: "\(generatedFomula[2].upper)_\(generatedFomula[3].upper)", anchorentity: anchor, putitemkind: .NumberBox)//後（強い）
                 print("ボックスの更新した")
+                parent.vm.generatedAnswer = generatedAnswer
+
             }
-            
         }
 
         func dop(){
-            print("gene:\(parent.vm.generatedAnswer)")
         }
 
+         func OkSound() {
+                guard let url = Bundle.main.url(forResource: "quizOk", withExtension: "mp3") else { return }
+
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                    try AVAudioSession.sharedInstance().setActive(true)
+
+                    okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+                    guard let player = okplayer else { return }
+
+                    player.play()
+
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+
+         func OutSound() {
+                guard let url = Bundle.main.url(forResource: "quizOut", withExtension: "mp3") else { return }
+
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                    try AVAudioSession.sharedInstance().setActive(true)
+
+                    okplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+                    guard let player = okplayer else { return }
+
+                    player.play()
+
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
     }
 }
