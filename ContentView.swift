@@ -21,8 +21,11 @@ struct ContentView: View {
 
     @StateObject var vm = ARViewModel()
     @State var isdamaged = false
+    @State var isPlaneDetected = false
+    @State var isGameStarted = false
     var body: some View {
 
+        
         ZStack{
             ARViewContainer(vm:vm)
                 .padding()
@@ -123,15 +126,15 @@ struct ARViewContainer: UIViewRepresentable {
 
 
                     // ARセッションの設定
-                    PutItem(translation: [-0.4,0,0], itemname: "4_3", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)//左（弱い）
+
                     PutItem(translation: [-0.2,0,0], itemname: "sign", anchorentity: anchorEntity,putitemkind: .sign)
                     PutItem(translation: [0,0,0], itemname: "questionBox", anchorentity: anchorEntity,putitemkind: .QuestionBox)
                     PutItem(translation: [0.2,0,0], itemname: "sign", anchorentity: anchorEntity,putitemkind: .sign)
-                    PutItem(translation: [0.4,0,0], itemname: "7_3", anchorentity: anchorEntity,putitemkind: .NumberBox,IsRotation: true)//右（強い）
-                    PutItem(translation: [0,0,0.4], itemname: "2_1", anchorentity: anchorEntity, putitemkind: .NumberBox)//前（弱い）
+
+
                     PutItem(translation: [0,0,0.2], itemname: "sign", anchorentity: anchorEntity, putitemkind: .sign,IsRotation: true)
                     PutItem(translation: [0,0,-0.2], itemname: "sign", anchorentity: anchorEntity, putitemkind: .sign,IsRotation: true)
-                    PutItem(translation: [0,0,-0.4], itemname: "9_8", anchorentity: anchorEntity, putitemkind: .NumberBox)//後（強い）
+
 
                     IsPlacedObject = true
 
