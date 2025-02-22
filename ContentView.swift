@@ -17,26 +17,62 @@ enum PutItemKind {
     case sign
 }
 
+struct homeView:View{
+    var onStart:() -> Void
+    var body:some View{
+        VStack{
+            Text("Home Screen")
+            Button {
+                onStart()
+            } label: {
+                Text("start")
+            }
+
+        }
+    }
+}
+
 struct ContentView: View {
 
     @StateObject var vm = ARViewModel()
     @State var isdamaged = false
     @State var isPlaneDetected = false
     @State var isGameStarted = false
+    @State var isGameFinished = false
+    @State var recordCount:Int = 0
+    @State var isresult : Bool = false
     var body: some View {
 
-        
-        ZStack{
-            ARViewContainer(vm:vm)
-                .padding()
-            ARSwiftUIView(vm:vm,isdamaged: $isdamaged)
+        NavigationStack{
 
-            if isdamaged {
-                Color.red
-                    .opacity(0.3)
-                    .transition(.opacity)
-            }
-        }.ignoresSafeArea(.all)
+
+            ZStack{
+                ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult)
+                    .padding()
+                ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+
+    //            if isGameFinished {
+    //                Group{
+    //                        Color.gray.opacity(0.7)
+    //                        VStack{
+    //                            Spacer()
+    //                            Spacer()
+    //                            Text("Your record")
+    //                            Text("Correct Answers: \(recordCount)")
+    //                            Spacer()
+    //                            Text("Tap and Go Title")
+    //                            Spacer()
+    //                        }.font(.system(size:30))
+    //                    }
+    //                .onTapGesture {
+    //                    print("タイトルに戻る")
+    //                }
+    //            }
+            }.ignoresSafeArea(.all)
+                .navigationDestination(isPresented: $isresult){
+                    resultView(vm: vm)
+                }
+        }
     }
 }
 
@@ -47,6 +83,9 @@ struct ContentView: View {
 struct ARViewContainer: UIViewRepresentable {
     @ObservedObject var vm:ARViewModel
     let arView = ARView(frame: .zero)
+    @Binding var isGameStarted :Bool
+    @Binding var isGameFinished :Bool
+    @Binding var isresult:Bool
 
     func makeUIView(context: Context) -> ARView {
         let configuration = ARWorldTrackingConfiguration()
@@ -79,12 +118,14 @@ struct ARViewContainer: UIViewRepresentable {
         var generatedAnswer: Int = 0
         var okplayer: AVAudioPlayer?
         var outplayer: AVAudioPlayer?
+        var finishplayer: AVAudioPlayer?
 
 
         init(_ parent: ARViewContainer) {
             self.parent = parent
             super.init()
             NotificationCenter.default.addObserver(self, selector: #selector(generateBoxes), name: .genereteBox, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(finishAction), name: .finishGame, object: nil)
         }
 
         nonisolated func session(_ session:ARSession,didAdd anchors:[ARAnchor]){
@@ -137,6 +178,8 @@ struct ARViewContainer: UIViewRepresentable {
 
 
                     IsPlacedObject = true
+                    parent.isGameStarted = true
+                    generateBoxes()
 
                 }
             }
@@ -255,5 +298,31 @@ struct ARViewContainer: UIViewRepresentable {
                     print(error.localizedDescription)
                 }
             }
+
+        func FinishSound() {
+                guard let url = Bundle.main.url(forResource: "finishWhistle", withExtension: "mp3") else { return }
+
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                    try AVAudioSession.sharedInstance().setActive(true)
+
+                    finishplayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+                    guard let player = finishplayer else { return }
+
+                    player.play()
+
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+
+        @objc func finishAction(){
+            parent.arView.session.pause()
+            parent.isresult = true
+            parent.vm.coordinator?.FinishSound()
+//            parent.isGameFinished = true
+        }
+
     }
 }

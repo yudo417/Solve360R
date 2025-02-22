@@ -21,8 +21,11 @@ struct ARSwiftUIView: View {
     @State var selectedNumber:Int = 0
     @ObservedObject var vm : ARViewModel
     @State var nowlife : Int = 3
-    @Binding var isdamaged : Bool
-    @State var damagedTimer : Timer?
+    @State private var timer : Timer?
+    @State private var timeRemaining: Float = 30
+    @Binding var isGameStarted :Bool
+    @Binding var isGameFinished :Bool
+    @Binding var recordCount :Int
 
     let buttonGradient = Gradient(stops: [
         .init(color: Color.white.opacity(0.8), location: 0.0),
@@ -48,21 +51,38 @@ struct ARSwiftUIView: View {
         VStack{
             HStack{
                 Spacer()
-                HStack{
-                    ForEach(0..<nowlife,id:\.self) { _ in
-                        Image(systemName: "heart.fill").foregroundStyle(.red)
+                ZStack{
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.white)
+                        .opacity(0.5)
+                    HStack{
+                        Text("Remaining Life").foregroundStyle(.black)
+                        HStack{
+                            ForEach(0..<nowlife,id:\.self) { _ in
+                                Image(systemName: "heart.fill").foregroundStyle(.red)
+                            }
+                        }
                     }
-                }
+                }.frame(width: 400, height: 60)
                 Spacer()
-                Spacer()
-                Spacer()
-                Text("Timer")
+                ZStack{
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.white)
+                        .opacity(0.5)
+                    HStack{
+                        Image(systemName: "clock").foregroundStyle(.black)
+                        Text(String(format: "Remaining Time: %.1f", timeRemaining)) .font(.title)
+                            .foregroundStyle(.black)
+                    }
+                }.frame(width: 400, height: 60)
+                    .padding()
                 Spacer()
             }.font(.title)
                 .padding(.top,20)
             Spacer()
             ZStack{
                 RoundedRectangle(cornerRadius: 60)
+                    .foregroundStyle(.white)
                     .frame(height: 300)
                     .opacity(0.5)
                     .overlay {
@@ -75,8 +95,42 @@ struct ARSwiftUIView: View {
             }
             .padding(50)
         }
+        .onAppear { // ビューが表示されたらタイマー開始
+                    startTimer()
+                }
+        .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
+            if isGameStarted && !isGameFinished && timeRemaining > 0 {
+                if timeRemaining != 0 {
+                    timeRemaining -= 0.1
+                }
+                    } else if isGameStarted && !isGameFinished && timeRemaining <= 0 {
+                        handleTimeUp()
+                    }
+                }
+        .onChange(of: isGameStarted) { oldValue, newValue in
+            if newValue{
+                startTimer()
+            }
+        }
 
     }
+    @MainActor
+       private func startTimer() {
+           timeRemaining = 60
+       }
+//    @MainActor
+//    private func stopTimer() {
+//            timer?.invalidate()
+//            timer = nil
+//        }
+    @MainActor
+    private func handleTimeUp() {
+//           stopTimer()
+           print("時間切れ！ゲームオーバー")
+        finishAction()
+//           startTimer() // 再スタート
+       }
+
 }
 
 
@@ -136,7 +190,11 @@ extension ARSwiftUIView {
                 }
             }
             vm.selectedNumber = 0
-            NotificationCenter.default.post(name: .genereteBox, object: nil)
+            print(nowlife)
+            print(vm.isCorrect)
+            // HPが1かつ不正解のときはブロック生成をスルー
+//                NotificationCenter.default.post(name: .genereteBox, object: nil)
+
         } label: {
             if numberbutton.allSatisfy{ !$0.isselected }{
                 ZStack{
@@ -147,6 +205,7 @@ extension ARSwiftUIView {
                         .frame(width: 250, height: 100)
                         .overlay(Capsule().stroke(Color.blue,lineWidth:4))
                     Text("Answer")
+                        .foregroundStyle(.white)
                         .font(.system(size: 50))
                 }
             }else{
@@ -158,6 +217,7 @@ extension ARSwiftUIView {
                         .frame(width: 250, height: 100)
                         .overlay(Capsule().stroke(Color.blue,lineWidth:4))
                     Text("Answer")
+                        .foregroundStyle(.white)
                         .font(.system(size: 50))
                 }.offset(y:-17.5)
             }
@@ -169,17 +229,42 @@ extension ARSwiftUIView {
         if (!(vm.isCorrect ?? false)) && nowlife == 1{
             print("gameOver")
 
-            vm.coordinator?.OutSound()
-            nowlife = 3
+            nowlife -= 1
+            self.finishAction()
+
         }else if !(vm.isCorrect ?? false){
             vm.coordinator?.OutSound()
             nowlife -= 1
+            NotificationCenter.default.post(name: .genereteBox, object: nil)
         }else{
             vm.coordinator?.OkSound()
+            vm.recordcount += 1
             print("OK")
+            NotificationCenter.default.post(name: .genereteBox, object: nil)
         }
+    }
+
+    private func finishAction() {
+        isGameFinished = true
+        NotificationCenter.default.post(name: .finishGame, object: nil)
     }
 
 
 
+}
+
+struct resultView:View{
+    @ObservedObject var vm : ARViewModel
+    var body: some View{
+        VStack{
+            Spacer()
+            Spacer()
+            Text("Your record")
+            Text("Your \(vm.recordcount)")
+            Spacer()
+            Text("Tap and Go Title")
+            Spacer()
+        }
+        .font(.title)
+    }
 }

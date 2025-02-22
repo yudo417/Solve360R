@@ -6,6 +6,7 @@ class ARViewModel: NSObject, ObservableObject {
      var selectedNumber: Int = 0 // SwiftUI側で更新
      var generatedAnswer: Int = 0 // Coordinator側で更新
      var isCorrect: Bool? = nil // 結果
+    var recordcount = 0
 
     @MainActor
     func compareNumber() {
