@@ -19,7 +19,7 @@ enum PutItemKind {
 
 struct homeView:View{
     var onStart:() -> Void
-    var isTutrial:Bool = false
+    @State var isTutrialSheet:Bool = false
     @State var isInitalTutrial:Bool = true
     var body:some View{
         VStack{
@@ -33,6 +33,7 @@ struct homeView:View{
                     if isInitalTutrial{
                         Button {
                             isInitalTutrial = false
+                            isTutrialSheet.toggle()
                         } label: {
                             ZStack{
                                 Circle().foregroundStyle(.blue)
@@ -78,8 +79,25 @@ struct homeView:View{
             Spacer()
 
         }
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isTutrialSheet = true
+                } label: {
+                    Image(systemName: "info.circle").font(.title).foregroundStyle(.blue).padding()
+                }
+
+            }
+        }
+        .fullScreenCover(isPresented: $isTutrialSheet) {
+            TutrialView(isTutrialSheet: $isTutrialSheet)
+        }
+
     }
 }
+
+
+
 enum Screen: Hashable {
     case home
     case game
