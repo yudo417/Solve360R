@@ -169,3 +169,7 @@ extension TutrialView {
         }
     }
 }
+
+#Preview{
+    TutrialView(isTutrialSheet: .constant(true))
+}
