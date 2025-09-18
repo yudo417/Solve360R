@@ -1,9 +1,4 @@
-//
-//  SwiftUIView.swift
-//  SpinSolve360
-//
-//  Created by 林　一貴 on 2025/02/21.
-//
+
 
 import SwiftUI
 import AVFoundation
@@ -260,24 +255,212 @@ extension ARSwiftUIView {
 struct resultView:View{
     @ObservedObject var vm : ARViewModel
     @Binding var path:[Screen]
+    @State private var isAnimating = false
+    @State private var showConfetti = false
+    
     var body: some View{
-        ZStack{
-            Color.white.opacity(0.001)
-            VStack{
+        ZStack {
+            // 美しいグラデーション背景
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.1, green: 0.3, blue: 0.6),
+                    Color(red: 0.3, green: 0.5, blue: 0.9),
+                    Color(red: 0.5, green: 0.7, blue: 1.0)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            
+            // 装飾的な背景要素
+            VStack {
+                ForEach(0..<8) { i in
+                    Circle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 60 + CGFloat(i * 15), height: 60 + CGFloat(i * 15))
+                        .offset(
+                            x: isAnimating ? 100 : -100,
+                            y: isAnimating ? -50 : 50
+                        )
+                        .animation(
+                            Animation.easeInOut(duration: 4)
+                                .repeatForever(autoreverses: true)
+                                .delay(Double(i) * 0.1),
+                            value: isAnimating
+                        )
+                }
+            }
+            
+            VStack(spacing: 40) {
                 Spacer()
+                
+                // 結果カード
+                VStack(spacing: 30) {
+                    // メインカード
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.white.opacity(0.9),
+                                        Color.white.opacity(0.7)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 350, height: 400)
+                            .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 10)
+                        
+                        VStack(spacing: 25) {
+                            // 結果アイコン
+                            ZStack {
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color.green, Color.blue]),
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .frame(width: 100, height: 100)
+                                    .shadow(color: .green.opacity(0.5), radius: 15, x: 0, y: 8)
+                                
+                                Image(systemName: "trophy.fill")
+                                    .font(.system(size: 50))
+                                    .foregroundColor(.white)
+                            }
+                            .scaleEffect(isAnimating ? 1.1 : 1.0)
+                            .animation(
+                                Animation.easeInOut(duration: 1.5)
+                                    .repeatForever(autoreverses: true),
+                                value: isAnimating
+                            )
+                            
+                            // 結果テキスト
+                            VStack(spacing: 15) {
+                                Text("Game Complete!")
+                                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                                    .foregroundColor(.primary)
+                                
+                                Text("Your Score")
+                                    .font(.title2)
+                                    .foregroundColor(.secondary)
+                                    .fontWeight(.medium)
+                                
+                                // スコア表示
+                                HStack(spacing: 15) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(
+                                                LinearGradient(
+                                                    gradient: Gradient(colors: [Color.orange, Color.red]),
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                )
+                                            )
+                                            .frame(width: 80, height: 80)
+                                        
+                                        Text("\(vm.recordcount)")
+                                            .font(.system(size: 36, weight: .black, design: .rounded))
+                                            .foregroundColor(.white)
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text("Correct")
+                                            .font(.headline)
+                                            .foregroundColor(.secondary)
+                                        Text("Answers")
+                                            .font(.headline)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                
+                                // 評価メッセージ
+                                Text(evaluationMessage)
+                                    .font(.title3)
+                                    .foregroundColor(.primary)
+                                    .fontWeight(.medium)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal, 20)
+                            }
+                        }
+                        .padding(30)
+                    }
+                    
+                    // アクションボタン
+                    Button {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                            path = []
+                            vm.recordcount = 0
+                        }
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 25)
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.blue,
+                                            Color.purple
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .frame(width: 280, height: 70)
+                                .shadow(color: .blue.opacity(0.5), radius: 15, x: 0, y: 8)
+                            
+                            HStack(spacing: 12) {
+                                Image(systemName: "house.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                                
+                                Text("Back to Title")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    .buttonStyle(ScaleButtonStyle())
+                }
+                
                 Spacer()
-                Text("Your record")
-                Text(" \(vm.recordcount) Correct Answer")
-                Spacer()
-                Text("Tap and Go Title")
-                Spacer()
+                
+                // フッター情報
+                HStack(spacing: 15) {
+                    Image(systemName: "sparkles")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    Text("Great job solving AR math puzzles!")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+            }
+            .padding(.horizontal, 40)
+        }
+        .onAppear {
+            isAnimating = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                showConfetti = true
             }
         }
-        .font(.title)
-        .onTapGesture {
-            path = []
-            vm.recordcount = 0
-
+    }
+    
+    // スコアに基づく評価メッセージ
+    private var evaluationMessage: String {
+        switch vm.recordcount {
+        case 0...2:
+            return "Keep practicing! AR math gets easier with time."
+        case 3...5:
+            return "Good effort! You're getting the hang of it."
+        case 6...8:
+            return "Excellent work! You're a math puzzle master!"
+        case 9...:
+            return "Incredible! You're absolutely unstoppable!"
+        default:
+            return "Amazing job solving AR math puzzles!"
         }
     }
 }

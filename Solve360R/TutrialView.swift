@@ -27,7 +27,7 @@ struct TutrialView: View {
                         // ステップ1: ゲームの目的
                         VStack {
                             Spacer()
-                            Text("Welcom to SpinSolve360 !")
+                            Text("Welcom to Solve360R !")
                                 .font(.largeTitle)
                                 .padding()
                             Spacer()

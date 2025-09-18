@@ -21,81 +21,253 @@ struct homeView:View{
     var onStart:() -> Void
     @State var isTutrialSheet:Bool = false
     @State var isInitalTutrial:Bool = true
+    @State private var isAnimating = false
+    
     var body:some View{
-        VStack{
-            Spacer()
-            VStack{
-                Text("SpinSolve360").font(.system(size:50))
-            }
-            Spacer()
-            HStack{
+        ZStack {
+            // 美しいグラデーション背景
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.1, green: 0.2, blue: 0.4),
+                    Color(red: 0.2, green: 0.4, blue: 0.8),
+                    Color(red: 0.4, green: 0.6, blue: 1.0)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            
+            // 装飾的な背景要素
+            VStack {
+                HStack {
+                    ForEach(0..<5) { i in
+                        Circle()
+                            .fill(Color.white.opacity(0.1))
+                            .frame(width: 100 + CGFloat(i * 20), height: 100 + CGFloat(i * 20))
+                            .offset(x: isAnimating ? 50 : -50, y: isAnimating ? -30 : 30)
+                            .animation(
+                                Animation.easeInOut(duration: 3)
+                                    .repeatForever(autoreverses: true)
+                                    .delay(Double(i) * 0.2),
+                                value: isAnimating
+                            )
+                    }
+                }
+                .offset(x: -200, y: -100)
+                
                 Spacer()
-                    if isInitalTutrial{
-                        Button {
-                            isInitalTutrial = false
-                            isTutrialSheet.toggle()
-                        } label: {
-                            ZStack{
-                                Circle().foregroundStyle(.blue)
-                                    .frame(width: 150, height: 150)
-                                Text("How?").font(.title).fontWeight(.bold)
+                
+                HStack {
+                    ForEach(0..<3) { i in
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.white.opacity(0.05))
+                            .frame(width: 80, height: 80)
+                            .rotationEffect(.degrees(isAnimating ? 15 : -15))
+                            .animation(
+                                Animation.easeInOut(duration: 2.5)
+                                    .repeatForever(autoreverses: true)
+                                    .delay(Double(i) * 0.3),
+                                value: isAnimating
+                            )
+                    }
+                }
+                .offset(x: 250, y: 100)
+            }
+            
+            VStack(spacing: 40) {
+                Spacer()
+                
+                // タイトルセクション
+                VStack(spacing: 20) {
+                    // メインタイトル
+                    Text("SpinSolve360")
+                        .font(.system(size: 60, weight: .black, design: .rounded))
+                        .foregroundStyle(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.white, Color.cyan]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                        .scaleEffect(isAnimating ? 1.05 : 1.0)
+                        .animation(
+                            Animation.easeInOut(duration: 2)
+                                .repeatForever(autoreverses: true),
+                            value: isAnimating
+                        )
+                    
+                    // サブタイトル
+                    Text("AR Math Adventure")
+                        .font(.title2)
+                        .foregroundColor(.white.opacity(0.8))
+                        .fontWeight(.medium)
+                }
+                
+                Spacer()
+                
+                // ボタンセクション
+                HStack(spacing: 40) {
+                    // How? ボタン
+                    VStack {
+                        if isInitalTutrial {
+                            Button {
+                                isInitalTutrial = false
+                                isTutrialSheet.toggle()
+                            } label: {
+                                ZStack {
+                                    // ボタン背景
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.orange,
+                                                    Color.red
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                        .frame(width: 160, height: 160)
+                                        .shadow(color: .orange.opacity(0.5), radius: 15, x: 0, y: 8)
+                                    
+                                    // アイコン
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "questionmark.circle.fill")
+                                            .font(.system(size: 40))
+                                            .foregroundColor(.white)
+                                        Text("How?")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                    }
+                                }
                             }
-                        }.buttonStyle(.plain)
-                    }else{
-                        ZStack{
-                            Circle()
-                                .foregroundStyle(.gray)
-                                .frame(width: 150, height: 150)
-                            Text("How?").font(.title).fontWeight(.bold)
+                            .buttonStyle(ScaleButtonStyle())
+                        } else {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(width: 160, height: 160)
+                                
+                                VStack(spacing: 8) {
+                                    Image(systemName: "questionmark.circle")
+                                        .font(.system(size: 40))
+                                        .foregroundColor(.white.opacity(0.6))
+                                    Text("How?")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white.opacity(0.6))
+                                }
+                            }
                         }
                     }
-
-                Spacer()
-
-                if isInitalTutrial{
-
-                        ZStack{
-                            Circle().foregroundStyle(.gray)
-                                .frame(width: 150, height: 150)
-                            Text("Play!").font(.title).fontWeight(.bold)
+                    
+                    // Play! ボタン
+                    VStack {
+                        if isInitalTutrial {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(width: 160, height: 160)
+                                
+                                VStack(spacing: 8) {
+                                    Image(systemName: "play.circle")
+                                        .font(.system(size: 40))
+                                        .foregroundColor(.white.opacity(0.6))
+                                    Text("Play!")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white.opacity(0.6))
+                                }
+                            }
+                        } else {
+                            Button {
+                                onStart()
+                            } label: {
+                                ZStack {
+                                    // ボタン背景
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.green,
+                                                    Color.blue
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                        .frame(width: 160, height: 160)
+                                        .shadow(color: .green.opacity(0.5), radius: 15, x: 0, y: 8)
+                                    
+                                    // アイコン
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "play.circle.fill")
+                                            .font(.system(size: 40))
+                                            .foregroundColor(.white)
+                                        Text("Play!")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                    }
+                                }
+                            }
+                            .buttonStyle(ScaleButtonStyle())
                         }
-
-                }else{
-                    Button {
-                        onStart()
-                    } label: {
-                        ZStack{
-                            Circle().foregroundStyle(.blue)
-                                .frame(width: 150, height: 150)
-                            Text("Play!").font(.title).fontWeight(.bold)
-                        }
-                    }.buttonStyle(.plain)
+                    }
                 }
-
-
+                
                 Spacer()
+                
+                // フッター情報
+                HStack(spacing: 20) {
+                    Image(systemName: "arkit")
+                        .font(.title2)
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    Text("Powered by ARKit & RealityKit")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.6))
+                }
             }
-
-            Spacer()
-
+            .padding(.horizontal, 40)
         }
-        .toolbar{
+        .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     isTutrialSheet = true
                 } label: {
-                    Image(systemName: "info.circle").font(.title).foregroundStyle(.blue).padding()
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 50, height: 50)
+                        
+                        Image(systemName: "info.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
                 }
-
+                .buttonStyle(ScaleButtonStyle())
             }
         }
         .fullScreenCover(isPresented: $isTutrialSheet) {
             TutrialView(isTutrialSheet: $isTutrialSheet)
         }
-
+        .onAppear {
+            isAnimating = true
+        }
     }
 }
 
+// カスタムボタンスタイル
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
 
 
 enum Screen: Hashable {

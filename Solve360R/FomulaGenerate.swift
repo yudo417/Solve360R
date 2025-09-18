@@ -1,16 +1,4 @@
-//
-//  File.swift
-//  SpinSolve360
-//
-//  Created by 林　一貴 on 2025/02/19.
-//
 
-//
-//  PuzzleGenerator.swift
-//  ARKitView1
-//
-//  Created by Hayashi on 2025/01/12.
-//
 
 import Foundation
 
