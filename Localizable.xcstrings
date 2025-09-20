@@ -1,8 +1,110 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "?" : {
+
+    },
+    "%lld" : {
+
+    },
+    "<" : {
+
+    },
+    "2" : {
+
+    },
+    "6" : {
+
+    },
+    "An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value." : {
+
+    },
+    "Answer" : {
+
+    },
+    "Answers" : {
+
+    },
+    "AR Math Adventure" : {
+
+    },
+    "Back to Title" : {
+
+    },
+    "Back View" : {
+
+    },
+    "Change Your Perspective" : {
+
+    },
+    "Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits." : {
+
+    },
+    "Correct" : {
+
+    },
+    "Find a Flat Surface" : {
+
+    },
+    "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection." : {
+
+    },
+    "Find the Answer" : {
+
+    },
+    "Front View" : {
+
+    },
+    "Game Complete!" : {
+
+    },
+    "Great job solving AR math puzzles!" : {
+
+    },
     "Hello world" : {
       "extractionState" : "manual"
+    },
+    "How?" : {
+
+    },
+    "Next" : {
+
+    },
+    "Play!" : {
+
+    },
+    "Powered by ARKit & RealityKit" : {
+
+    },
+    "Ready to Play?" : {
+
+    },
+    "Remaining Life" : {
+
+    },
+    "SpinSolve360" : {
+
+    },
+    "Start Game" : {
+
+    },
+    "The numbers on the blocks look different from the front and back. You need to walk around to see all sides." : {
+
+    },
+    "This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!" : {
+
+    },
+    "Welcome to SpinSolve360!" : {
+
+    },
+    "What's an Inequality?" : {
+
+    },
+    "You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!" : {
+
+    },
+    "Your Score" : {
+
     }
   },
   "version" : "1.1"
