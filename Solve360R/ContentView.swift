@@ -80,7 +80,7 @@ struct homeView:View{
                 // タイトルセクション
                 VStack(spacing: 20) {
                     // メインタイトル
-                    Text("SpinSolve360")
+                    Text("AppName")
                         .font(.system(size: 60, weight: .black, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
@@ -98,10 +98,10 @@ struct homeView:View{
                         )
                     
                     // サブタイトル
-                    Text("AR Math Adventure")
-                        .font(.title2)
-                        .foregroundColor(.white.opacity(0.8))
-                        .fontWeight(.medium)
+//                    Text("AR Math Adventure")
+//                        .font(.title2)
+//                        .foregroundColor(.white.opacity(0.8))
+//                        .fontWeight(.medium)
                 }
                 
                 Spacer()
@@ -221,15 +221,15 @@ struct homeView:View{
                 Spacer()
                 
                 // フッター情報
-                HStack(spacing: 20) {
-                    Image(systemName: "arkit")
-                        .font(.title2)
-                        .foregroundColor(.white.opacity(0.7))
-                    
-                    Text("Powered by ARKit & RealityKit")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
-                }
+//                HStack(spacing: 20) {
+//                    Image(systemName: "arkit")
+//                        .font(.title2)
+//                        .foregroundColor(.white.opacity(0.7))
+//                    
+//                    Text("Powered by ARKit & RealityKit")
+//                        .font(.caption)
+//                        .foregroundColor(.white.opacity(0.6))
+//                }
             }
             .padding(.horizontal, 40)
         }

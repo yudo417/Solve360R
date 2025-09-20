@@ -16,92 +16,243 @@
     "6" : {
 
     },
-    "An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value." : {
-
-    },
     "Answer" : {
 
     },
     "Answers" : {
 
     },
-    "AR Math Adventure" : {
-
+    "AppName" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solve360R"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solve360R"
+          }
+        }
+      }
     },
     "Back to Title" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイトルに戻る"
+          }
+        }
+      }
     },
     "Back View" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "後方視点"
+          }
+        }
+      }
     },
-    "Change Your Perspective" : {
-
-    },
-    "Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits." : {
-
+    "Close" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "閉じる"
+          }
+        }
+      }
     },
     "Correct" : {
 
     },
-    "Find a Flat Surface" : {
-
-    },
-    "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection." : {
-
-    },
-    "Find the Answer" : {
-
-    },
     "Front View" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前方視点"
+          }
+        }
+      }
     },
     "Game Complete!" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゲーム終了！"
+          }
+        }
+      }
     },
     "Great job solving AR math puzzles!" : {
 
     },
-    "Hello world" : {
-      "extractionState" : "manual"
-    },
     "How?" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遊び方"
+          }
+        }
+      }
     },
     "Next" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次へ"
+          }
+        }
+      }
     },
     "Play!" : {
-
-    },
-    "Powered by ARKit & RealityKit" : {
-
-    },
-    "Ready to Play?" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プレイ!"
+          }
+        }
+      }
     },
     "Remaining Life" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残りライフ"
+          }
+        }
+      }
     },
-    "SpinSolve360" : {
-
+    "step1.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!"
+          }
+        }
+      }
     },
-    "Start Game" : {
-
+    "step1.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Solve360R!"
+          }
+        }
+      }
     },
-    "The numbers on the blocks look different from the front and back. You need to walk around to see all sides." : {
-
+    "step2.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection."
+          }
+        }
+      }
     },
-    "This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!" : {
-
+    "step2.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find a Flat Surface"
+          }
+        }
+      }
     },
-    "Welcome to SpinSolve360!" : {
-
+    "step3.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value."
+          }
+        }
+      }
     },
-    "What's an Inequality?" : {
-
+    "step3.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's an Inequality?"
+          }
+        }
+      }
     },
-    "You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!" : {
-
+    "step4.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The numbers on the blocks look different from the front and back. You need to walk around to see all sides."
+          }
+        }
+      }
+    },
+    "step4.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change Your Perspective"
+          }
+        }
+      }
+    },
+    "step5.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits."
+          }
+        }
+      }
+    },
+    "step5.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find the Answer"
+          }
+        }
+      }
+    },
+    "step6.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!"
+          }
+        }
+      }
+    },
+    "step6.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to Play?"
+          }
+        }
+      }
     },
     "Your Score" : {
 

@@ -55,7 +55,7 @@ private extension TutrialView {
             }
         }) {
             HStack {
-                Text(currentPage < 5 ? "Next" : "Start Game")
+                Text(currentPage < 5 ? "Next" : "Close")
                 Image(systemName: currentPage < 5 ? "arrow.right" : "play.fill")
             }
             .font(.headline)
@@ -72,24 +72,24 @@ private extension TutrialView {
 
     var step1: some View {
         TutorialPage(
-            title: "Welcome to SpinSolve360!",
+            title: "step1.title",
             image: Image(systemName: "arkit"),
-            description: "This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!",
+            description: "step1.description",
             isResizeImage: true
         )
     }
 
     var step2: some View {
         TutorialPage(
-            title: "Find a Flat Surface",
+            title: "step2.title",
             image: Image("ex4"),
-            description: "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection."
+            description: "step2.description",
         )
     }
 
     var step3: some View {
         TutorialPage(
-            title: "What's an Inequality?",
+            title: "step3.title",
             image: nil,
             customContent: {
                 VStack {
@@ -103,13 +103,13 @@ private extension TutrialView {
                     .padding(.vertical, 40)
                 }
             }(),
-            description: "An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value."
+            description: "step3.description"
         )
     }
 
     var step4: some View {
         TutorialPage(
-            title: "Change Your Perspective",
+            title: "step4.title",
             image: nil,
             customContent: {
                 HStack(spacing: 30) {
@@ -125,23 +125,23 @@ private extension TutrialView {
                     }
                 }
             }(),
-            description: "The numbers on the blocks look different from the front and back. You need to walk around to see all sides."
+            description: "step4.description"
         )
     }
 
     var step5: some View {
         TutorialPage(
-            title: "Find the Answer",
+            title: "step5.title",
             image: Image("ex3"),
-            description: "Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits."
+            description: "step5.description"
         )
     }
 
     var step6: some View {
         TutorialPage(
-            title: "Ready to Play?",
+            title: "step6.title",
             image: Image(systemName: "gamecontroller.fill"),
-            description: "You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!"
+            description: "step6.description"
         )
     }
 }

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Localizable.xcstrings" source-language="en" target-language="ja" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.0" build-num="17A324"/>
+    </header>
+    <body>
+      <trans-unit id="%lld" xml:space="preserve">
+        <source>%lld</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="2" xml:space="preserve">
+        <source>2</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="6" xml:space="preserve">
+        <source>6</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="&lt;" xml:space="preserve">
+        <source>&lt;</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="?" xml:space="preserve">
+        <source>?</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="AR Math Adventure" xml:space="preserve">
+        <source>AR Math Adventure</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value." xml:space="preserve">
+        <source>An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Answer" xml:space="preserve">
+        <source>Answer</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Answers" xml:space="preserve">
+        <source>Answers</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Back View" xml:space="preserve">
+        <source>Back View</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Back to Title" xml:space="preserve">
+        <source>Back to Title</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Change Your Perspective" xml:space="preserve">
+        <source>Change Your Perspective</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits." xml:space="preserve">
+        <source>Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Correct" xml:space="preserve">
+        <source>Correct</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Find a Flat Surface" xml:space="preserve">
+        <source>Find a Flat Surface</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection." xml:space="preserve">
+        <source>Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Find the Answer" xml:space="preserve">
+        <source>Find the Answer</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Front View" xml:space="preserve">
+        <source>Front View</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Game Complete!" xml:space="preserve">
+        <source>Game Complete!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Great job solving AR math puzzles!" xml:space="preserve">
+        <source>Great job solving AR math puzzles!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Hello world" xml:space="preserve">
+        <source>Hello world</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="How?" xml:space="preserve">
+        <source>How?</source>
+        <target state="translated">遊び方</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Next" xml:space="preserve">
+        <source>Next</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Play!" xml:space="preserve">
+        <source>Play!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Powered by ARKit &amp; RealityKit" xml:space="preserve">
+        <source>Powered by ARKit &amp; RealityKit</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Ready to Play?" xml:space="preserve">
+        <source>Ready to Play?</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Remaining Life" xml:space="preserve">
+        <source>Remaining Life</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="SpinSolve360" xml:space="preserve">
+        <source>SpinSolve360</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Start Game" xml:space="preserve">
+        <source>Start Game</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="The numbers on the blocks look different from the front and back. You need to walk around to see all sides." xml:space="preserve">
+        <source>The numbers on the blocks look different from the front and back. You need to walk around to see all sides.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!" xml:space="preserve">
+        <source>This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Welcome to SpinSolve360!" xml:space="preserve">
+        <source>Welcome to Solve360R!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="What's an Inequality?" xml:space="preserve">
+        <source>What's an Inequality?</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!" xml:space="preserve">
+        <source>You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Your Score" xml:space="preserve">
+        <source>Your Score</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="step1.title" xml:space="preserve">
+        <source>step1.title</source>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Solve360R-InfoPlist.xcstrings" source-language="en" target-language="ja" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.0" build-num="17A324"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>Solve360R</source>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription" xml:space="preserve">
+        <source>AR体験のためにカメラ機能を使用します</source>
+        <note>Privacy - Camera Usage Description</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
