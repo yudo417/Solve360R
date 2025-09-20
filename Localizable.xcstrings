@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "?" : {
-
-    },
     "%lld" : {
 
     },
@@ -139,7 +136,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This is an AR game where you solve inequalities. Find the hidden number by looking at it from different angles!"
+            "value" : "This App is an AR game where you solve inequalities. Try solving the inequalities by viewing them from different angles!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不等式を解くARゲームアプリです\n様々な角度から観察して解を求めよう！"
           }
         }
       }
@@ -147,6 +150,12 @@
     "step1.title" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Solve360R!"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welcome to Solve360R!"
@@ -161,6 +170,12 @@
             "state" : "translated",
             "value" : "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明るい場所で机などの平らな面を見つけてください\nデバイスのカメラをその面に向け，平面の検出を行います"
+          }
         }
       }
     },
@@ -171,6 +186,12 @@
             "state" : "translated",
             "value" : "Find a Flat Surface"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平面の検出"
+          }
         }
       }
     },
@@ -179,7 +200,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "An inequality shows the relationship between numbers. In this game, you'll use them to pinpoint the correct value."
+            "value" : "Inequalities are used to express the relationship between the sizes of numbers. For example, the relationship between the numbers 2 and 6 can be expressed using the \"<\" symbol as follows:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "不等式は数字の大小の関係を表します\n例えば2と6の数字の大小は「＜」の記号を用いてこのように表すことができます"
           }
         }
       }
@@ -191,6 +218,12 @@
             "state" : "translated",
             "value" : "What's an Inequality?"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不等式とは？"
+          }
         }
       }
     },
@@ -199,7 +232,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The numbers on the blocks look different from the front and back. You need to walk around to see all sides."
+            "value" : "The numbers on the blocks look different from the front and back. Let’s walk around to see all sides."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ブロックに書かれた数字は正面と背面で異なるので\n全ての面を見るにはブロックの周りを歩いて確認しよう！"
           }
         }
       }
@@ -211,6 +250,12 @@
             "state" : "translated",
             "value" : "Change Your Perspective"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”視点の変更”が鍵"
+          }
         }
       }
     },
@@ -220,6 +265,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Combine the inequalities from all four sides (front, back, left, right) to figure out the single number that fits."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4方向（前面・背面・左面・右面）の不等式の条件を組み合わせて\n解を求めることができる"
           }
         }
       }
@@ -231,6 +282,12 @@
             "state" : "translated",
             "value" : "Find the Answer"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解の絞り込み"
+          }
         }
       }
     },
@@ -240,6 +297,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You have 60 seconds to solve as many puzzles as you can. Three mistakes and the game is over. Let's get the highest score!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限時間は60秒で3回間違えるとゲームオーバー\n最高スコアを目指そう！"
           }
         }
       }
@@ -251,11 +314,24 @@
             "state" : "translated",
             "value" : "Ready to Play?"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "準備OK？"
+          }
         }
       }
     },
     "Your Score" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スコア"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

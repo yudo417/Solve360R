@@ -95,8 +95,8 @@ private extension TutrialView {
                 VStack {
                     HStack(spacing: 30) {
                         Text("2").font(.system(size: 80, weight: .bold))
-                        Text("<").font(.system(size: 80, weight: .light))
-                        Text("?").font(.system(size: 80, weight: .bold))
+//                        Text("<").font(.system(size: 80, weight: .light))
+//                        Text("?").font(.system(size: 80, weight: .bold))
                         Text("<").font(.system(size: 80, weight: .light))
                         Text("6").font(.system(size: 80, weight: .bold))
                     }
@@ -174,7 +174,7 @@ struct TutorialPage<CustomContent: View>: View {
             if let image = image {
                     image
                         .resizable()
-                        .frame(width:isResizeImage ? 300 : 450, height:isResizeImage ? 300 : 350)
+                        .frame(width:isResizeImage ? 300 : 450, height:isResizeImage ? 300 : 300)
                         .scaledToFit()
                         .foregroundColor(.accentColor)
     //                    .frame(maxHeight: 250)

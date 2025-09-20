@@ -260,7 +260,6 @@ struct resultView:View{
     
     var body: some View{
         ZStack {
-            // 美しいグラデーション背景
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 0.1, green: 0.3, blue: 0.6),

@@ -39,21 +39,7 @@ struct homeView:View{
             
             // 装飾的な背景要素
             VStack {
-                HStack {
-                    ForEach(0..<5) { i in
-                        Circle()
-                            .fill(Color.white.opacity(0.1))
-                            .frame(width: 100 + CGFloat(i * 20), height: 100 + CGFloat(i * 20))
-                            .offset(x: isAnimating ? 50 : -50, y: isAnimating ? -30 : 30)
-                            .animation(
-                                Animation.easeInOut(duration: 3)
-                                    .repeatForever(autoreverses: true)
-                                    .delay(Double(i) * 0.2),
-                                value: isAnimating
-                            )
-                    }
-                }
-                .offset(x: -200, y: -100)
+                
                 
                 Spacer()
                 
