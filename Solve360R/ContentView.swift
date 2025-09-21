@@ -96,7 +96,7 @@ struct homeView:View{
                 HStack(spacing: 40) {
                     // How? ボタン
                     VStack {
-                        if isInitalTutrial {
+//                        if isInitalTutrial {
                             Button {
                                 isInitalTutrial = false
                                 isTutrialSheet.toggle()
@@ -130,44 +130,44 @@ struct homeView:View{
                                 }
                             }
                             .buttonStyle(ScaleButtonStyle())
-                        } else {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(Color.gray.opacity(0.3))
-                                    .frame(width: 160, height: 160)
-                                
-                                VStack(spacing: 8) {
-                                    Image(systemName: "questionmark.circle")
-                                        .font(.system(size: 40))
-                                        .foregroundColor(.white.opacity(0.6))
-                                    Text("How?")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white.opacity(0.6))
-                                }
-                            }
-                        }
+//                        } else {
+//                            ZStack {
+//                                RoundedRectangle(cornerRadius: 25)
+//                                    .fill(Color.gray.opacity(0.3))
+//                                    .frame(width: 160, height: 160)
+//                                
+//                                VStack(spacing: 8) {
+//                                    Image(systemName: "questionmark.circle")
+//                                        .font(.system(size: 40))
+//                                        .foregroundColor(.white.opacity(0.6))
+//                                    Text("How?")
+//                                        .font(.title2)
+//                                        .fontWeight(.bold)
+//                                        .foregroundColor(.white.opacity(0.6))
+//                                }
+//                            }
+//                        }
                     }
                     
                     // Play! ボタン
                     VStack {
-                        if isInitalTutrial {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(Color.gray.opacity(0.3))
-                                    .frame(width: 160, height: 160)
-                                
-                                VStack(spacing: 8) {
-                                    Image(systemName: "play.circle")
-                                        .font(.system(size: 40))
-                                        .foregroundColor(.white.opacity(0.6))
-                                    Text("Play!")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white.opacity(0.6))
-                                }
-                            }
-                        } else {
+//                        if isInitalTutrial {
+//                            ZStack {
+//                                RoundedRectangle(cornerRadius: 25)
+//                                    .fill(Color.gray.opacity(0.3))
+//                                    .frame(width: 160, height: 160)
+//                                
+//                                VStack(spacing: 8) {
+//                                    Image(systemName: "play.circle")
+//                                        .font(.system(size: 40))
+//                                        .foregroundColor(.white.opacity(0.6))
+//                                    Text("Play!")
+//                                        .font(.title2)
+//                                        .fontWeight(.bold)
+//                                        .foregroundColor(.white.opacity(0.6))
+//                                }
+//                            }
+//                        } else {
                             Button {
                                 onStart()
                             } label: {
@@ -200,7 +200,7 @@ struct homeView:View{
                                 }
                             }
                             .buttonStyle(ScaleButtonStyle())
-                        }
+//                        }
                     }
                 }
                 
