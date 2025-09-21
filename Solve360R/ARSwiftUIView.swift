@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import AVFoundation
 import Combine
@@ -70,7 +68,9 @@ struct ARSwiftUIView: View {
                         .opacity(0.5)
                     HStack{
                         Image(systemName: "clock").foregroundStyle(.black)
-                        Text(String(format: "Remaining Time: %.1f", timeRemaining)) .font(.title)
+                        Text("Remaining Time：") .font(.title)
+                            .foregroundStyle(.black)
+                        Text(String(format: " %.1f", timeRemaining)) .font(.title)
                             .foregroundStyle(.black)
                     }
                 }.frame(width: 400, height: 60)
@@ -251,13 +251,17 @@ extension ARSwiftUIView {
 
 
 }
+#Preview{
+    resultView(vm: ARViewModel(), path: .constant([]))
+}
 
 struct resultView:View{
     @ObservedObject var vm : ARViewModel
     @Binding var path:[Screen]
     @State private var isAnimating = false
     @State private var showConfetti = false
-    
+    @State private var animatedScore = 0
+
     var body: some View{
         ZStack {
             LinearGradient(
@@ -270,29 +274,11 @@ struct resultView:View{
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            
-            // 装飾的な背景要素
-            VStack {
-                ForEach(0..<8) { i in
-                    Circle()
-                        .fill(Color.white.opacity(0.1))
-                        .frame(width: 60 + CGFloat(i * 15), height: 60 + CGFloat(i * 15))
-                        .offset(
-                            x: isAnimating ? 100 : -100,
-                            y: isAnimating ? -50 : 50
-                        )
-                        .animation(
-                            Animation.easeInOut(duration: 4)
-                                .repeatForever(autoreverses: true)
-                                .delay(Double(i) * 0.1),
-                            value: isAnimating
-                        )
-                }
-            }
-            
+
+
             VStack(spacing: 40) {
                 Spacer()
-                
+
                 // 結果カード
                 VStack(spacing: 30) {
                     // メインカード
@@ -309,8 +295,8 @@ struct resultView:View{
                                 )
                             )
                             .frame(width: 350, height: 400)
-                            .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 10)
-                        
+                            .shadow(color: .black.opacity(0.4), radius: 20, x: 0, y: 10)
+
                         VStack(spacing: 25) {
                             // 結果アイコン
                             ZStack {
@@ -324,7 +310,7 @@ struct resultView:View{
                                     )
                                     .frame(width: 100, height: 100)
                                     .shadow(color: .green.opacity(0.5), radius: 15, x: 0, y: 8)
-                                
+
                                 Image(systemName: "trophy.fill")
                                     .font(.system(size: 50))
                                     .foregroundColor(.white)
@@ -335,50 +321,38 @@ struct resultView:View{
                                     .repeatForever(autoreverses: true),
                                 value: isAnimating
                             )
-                            
+
                             // 結果テキスト
                             VStack(spacing: 15) {
                                 Text("Game Complete!")
                                     .font(.system(size: 32, weight: .bold, design: .rounded))
-                                    .foregroundColor(.primary)
-                                
+                                    .foregroundColor(.blue.opacity(0.8))
+
                                 Text("Your Score")
                                     .font(.title2)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(.purple.opacity(0.7))
                                     .fontWeight(.medium)
-                                
+
                                 // スコア表示
-                                HStack(spacing: 15) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(
-                                                LinearGradient(
-                                                    gradient: Gradient(colors: [Color.orange, Color.red]),
-                                                    startPoint: .topLeading,
-                                                    endPoint: .bottomTrailing
-                                                )
-                                            )
-                                            .frame(width: 80, height: 80)
-                                        
-                                        Text("\(vm.recordcount)")
-                                            .font(.system(size: 36, weight: .black, design: .rounded))
-                                            .foregroundColor(.white)
-                                    }
-                                    
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text("Correct")
-                                            .font(.headline)
-                                            .foregroundColor(.secondary)
-                                        Text("Answers")
-                                            .font(.headline)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
-                                
+//                                HStack(spacing: 20) {
+//                                    VStack(spacing: 5) {
+                                        Text("\(animatedScore)")
+                                            .font(.system(size: 60, weight: .bold, design: .rounded))
+                                            .foregroundColor(Color(red: 0.9, green: 0.4, blue: 0.1))
+                                            .contentTransition(.numericText(countsDown: false))
+                                            .animation(.spring(response: 0.4, dampingFraction: 0.9), value: animatedScore)
+                                            .scaleEffect(isAnimating ? 1.2 : 1.0)
+                                            .animation(.bouncy(duration: 1.0, extraBounce: 0.7).repeatForever(autoreverses: false), value: isAnimating)
+
+
+
+//                                    }
+//                                }
+
                                 // 評価メッセージ
                                 Text(evaluationMessage)
-                                    .font(.title3)
-                                    .foregroundColor(.primary)
+                                    .font(.system(size: 20, weight: .medium, design: .serif))
+                                    .foregroundColor(.black.opacity(0.8))
                                     .fontWeight(.medium)
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal, 20)
@@ -386,7 +360,7 @@ struct resultView:View{
                         }
                         .padding(30)
                     }
-                    
+
                     // アクションボタン
                     Button {
                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
@@ -408,14 +382,14 @@ struct resultView:View{
                                 )
                                 .frame(width: 280, height: 70)
                                 .shadow(color: .blue.opacity(0.5), radius: 15, x: 0, y: 8)
-                            
+
                             HStack(spacing: 12) {
                                 Image(systemName: "house.fill")
                                     .font(.title2)
                                     .foregroundColor(.white)
-                                
+
                                 Text("Back to Title")
-                                    .font(.title2)
+                                    .font(.system(size: 24, weight: .semibold, design: .serif))
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
                             }
@@ -423,43 +397,56 @@ struct resultView:View{
                     }
                     .buttonStyle(ScaleButtonStyle())
                 }
-                
+
                 Spacer()
-                
+
                 // フッター情報
-                HStack(spacing: 15) {
-                    Image(systemName: "sparkles")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
-                    
-                    Text("Great job solving AR math puzzles!")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
-                }
+//                HStack(spacing: 15) {
+//                    Image(systemName: "sparkles")
+//                        .font(.caption)
+//                        .foregroundColor(.purple.opacity(0.7))
+//
+//                    Text("Great job solving AR math puzzles!")
+//                        .font(.caption)
+//                        .foregroundColor(.purple.opacity(0.7))
+//                }
             }
             .padding(.horizontal, 40)
         }
         .onAppear {
             isAnimating = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+            // スコアを0にリセット
+            animatedScore = 0
+
+            // 少し遅れてカウントアップアニメーションを開始
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 showConfetti = true
+                // withAnimation を使って animatedScore を目標値まで変化させる
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                    animatedScore = vm.recordcount
+                }
             }
         }
     }
-    
+
     // スコアに基づく評価メッセージ
     private var evaluationMessage: String {
         switch vm.recordcount {
         case 0...2:
-            return "Keep practicing! AR math gets easier with time."
+            return "Keep practicing…!"
         case 3...5:
-            return "Good effort! You're getting the hang of it."
+            return "Good effort!"
         case 6...8:
-            return "Excellent work! You're a math puzzle master!"
-        case 9...:
-            return "Incredible! You're absolutely unstoppable!"
+            return "Excellent work!!"
+        case 9...10:
+            return "Amazing job!!"
+        case 11...19:
+            return "🎉 Incredible!! 🎉"
+        case 20...:
+            return "Used cheat…？？?"
         default:
-            return "Amazing job solving AR math puzzles!"
+            return "Finished!"
         }
     }
 }

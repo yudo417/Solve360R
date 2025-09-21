@@ -16,9 +16,6 @@
     "Answer" : {
 
     },
-    "Answers" : {
-
-    },
     "AppName" : {
       "localizations" : {
         "en" : {
@@ -65,9 +62,6 @@
         }
       }
     },
-    "Correct" : {
-
-    },
     "Front View" : {
       "localizations" : {
         "ja" : {
@@ -87,9 +81,6 @@
           }
         }
       }
-    },
-    "Great job solving AR math puzzles!" : {
-
     },
     "How?" : {
       "localizations" : {
@@ -127,6 +118,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "残りライフ"
+          }
+        }
+      }
+    },
+    "Remaining Time：" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り時間："
+          }
+        }
+      }
+    },
+    "SCORE" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スコア"
           }
         }
       }

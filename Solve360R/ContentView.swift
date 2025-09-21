@@ -76,7 +76,7 @@ struct homeView:View{
                             )
                         )
                         .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
-                        .scaleEffect(isAnimating ? 1.05 : 1.0)
+                        .scaleEffect(isAnimating ? 1.20 : 1.0)
                         .animation(
                             Animation.easeInOut(duration: 2)
                                 .repeatForever(autoreverses: true),
