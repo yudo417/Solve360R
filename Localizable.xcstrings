@@ -112,6 +112,22 @@
         }
       }
     },
+    "record" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "記録"
+          }
+        }
+      }
+    },
     "Remaining Life" : {
       "localizations" : {
         "ja" : {
@@ -128,17 +144,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "残り時間："
-          }
-        }
-      }
-    },
-    "SCORE" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スコア"
           }
         }
       }

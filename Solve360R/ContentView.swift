@@ -22,7 +22,7 @@ struct homeView:View{
     @State var isTutrialSheet:Bool = false
     @State var isInitalTutrial:Bool = true
     @State private var isAnimating = false
-    
+
     var body:some View{
         ZStack {
             // 美しいグラデーション背景
@@ -36,13 +36,13 @@ struct homeView:View{
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            
+
             // 装飾的な背景要素
             VStack {
-                
-                
+
+
                 Spacer()
-                
+
                 HStack {
                     ForEach(0..<3) { i in
                         RoundedRectangle(cornerRadius: 20)
@@ -59,10 +59,10 @@ struct homeView:View{
                 }
                 .offset(x: 250, y: 100)
             }
-            
+
             VStack(spacing: 40) {
                 Spacer()
-                
+
                 // タイトルセクション
                 VStack(spacing: 20) {
                     // メインタイトル
@@ -82,16 +82,16 @@ struct homeView:View{
                                 .repeatForever(autoreverses: true),
                             value: isAnimating
                         )
-                    
+
                     // サブタイトル
 //                    Text("AR Math Adventure")
 //                        .font(.title2)
 //                        .foregroundColor(.white.opacity(0.8))
 //                        .fontWeight(.medium)
                 }
-                
+
                 Spacer()
-                
+
                 // ボタンセクション
                 HStack(spacing: 40) {
                     // How? ボタン
@@ -116,7 +116,7 @@ struct homeView:View{
                                         )
                                         .frame(width: 160, height: 160)
                                         .shadow(color: .orange.opacity(0.5), radius: 15, x: 0, y: 8)
-                                    
+
                                     // アイコン
                                     VStack(spacing: 8) {
                                         Image(systemName: "questionmark.circle.fill")
@@ -135,7 +135,7 @@ struct homeView:View{
 //                                RoundedRectangle(cornerRadius: 25)
 //                                    .fill(Color.gray.opacity(0.3))
 //                                    .frame(width: 160, height: 160)
-//                                
+//
 //                                VStack(spacing: 8) {
 //                                    Image(systemName: "questionmark.circle")
 //                                        .font(.system(size: 40))
@@ -148,7 +148,7 @@ struct homeView:View{
 //                            }
 //                        }
                     }
-                    
+
                     // Play! ボタン
                     VStack {
 //                        if isInitalTutrial {
@@ -156,7 +156,7 @@ struct homeView:View{
 //                                RoundedRectangle(cornerRadius: 25)
 //                                    .fill(Color.gray.opacity(0.3))
 //                                    .frame(width: 160, height: 160)
-//                                
+//
 //                                VStack(spacing: 8) {
 //                                    Image(systemName: "play.circle")
 //                                        .font(.system(size: 40))
@@ -186,7 +186,7 @@ struct homeView:View{
                                         )
                                         .frame(width: 160, height: 160)
                                         .shadow(color: .green.opacity(0.5), radius: 15, x: 0, y: 8)
-                                    
+
                                     // アイコン
                                     VStack(spacing: 8) {
                                         Image(systemName: "play.circle.fill")
@@ -203,15 +203,15 @@ struct homeView:View{
 //                        }
                     }
                 }
-                
+
                 Spacer()
-                
+
                 // フッター情報
 //                HStack(spacing: 20) {
 //                    Image(systemName: "arkit")
 //                        .font(.title2)
 //                        .foregroundColor(.white.opacity(0.7))
-//                    
+//
 //                    Text("Powered by ARKit & RealityKit")
 //                        .font(.caption)
 //                        .foregroundColor(.white.opacity(0.6))
@@ -224,17 +224,42 @@ struct homeView:View{
                 Button {
                     isTutrialSheet = true
                 } label: {
-                    ZStack {
-                        Circle()
-                            .fill(Color.white.opacity(0.2))
-                            .frame(width: 50, height: 50)
-                        
-                        Image(systemName: "info.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.white)
+                    ZStack{
+
+                        HStack(spacing: 8) {
+                            Image(systemName: "crown")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+
+                            Text("record")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 20)
+    //                    .background(
+    //                        // グラスモーフィズム背景
+    //                        Capsule()
+    //                            .fill(.ultraThinMaterial)
+    //                            .background(
+    //                                LinearGradient(
+    //                                    gradient: Gradient(colors: [Color.white.opacity(0.25), Color.white.opacity(0.1)]),
+    //                                    startPoint: .topLeading,
+    //                                    endPoint: .bottomTrailing
+    //                                )
+    //                            )
+    //                            .clipShape(Capsule())
+    //                    )
+    //                    .overlay(
+    //                        Capsule()
+    //                            .stroke(Color.white.opacity(0.4), lineWidth: 1)
+    //                    )
                     }
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                 }
                 .buttonStyle(ScaleButtonStyle())
+                .buttonStyle(.plain)
             }
         }
         .fullScreenCover(isPresented: $isTutrialSheet) {
@@ -312,7 +337,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    homeView(onStart: {})
 }
 
 struct ARViewContainer: UIViewRepresentable {
