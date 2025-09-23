@@ -9,6 +9,7 @@ struct RecordView: View {
         ZStack{
             Colors.background
 
+            
         }
     }
 }

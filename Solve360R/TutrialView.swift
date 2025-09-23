@@ -6,24 +6,29 @@ struct TutrialView: View {
 
     // MARK: - Body
     var body: some View {
-        VStack(spacing: 20) {
-            closeButton
+        ZStack{
 
-            TabView(selection: $currentPage) {
-                step1.tag(0)
-                step2.tag(1)
-                step3.tag(2)
-                step4.tag(3)
-                step5.tag(4)
-                step6.tag(5)
+            Colors.background
+
+            VStack(spacing: 20) {
+                closeButton
+
+                TabView(selection: $currentPage) {
+                    step1.tag(0)
+                    step2.tag(1)
+                    step3.tag(2)
+                    step4.tag(3)
+                    step5.tag(4)
+                    step6.tag(5)
+                }
+                .tabViewStyle(PageTabViewStyle())
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+
+                nextButton
             }
-            .tabViewStyle(PageTabViewStyle())
-            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-
-            nextButton
+            .padding(30)
         }
-        .padding(30)
-        .background(Color(.systemGroupedBackground))
+//        .background(Color(.systemGroupedBackground))
         .edgesIgnoringSafeArea(.all)
     }
 }
@@ -176,8 +181,15 @@ struct TutorialPage<CustomContent: View>: View {
                         .resizable()
                         .frame(width:isResizeImage ? 300 : 450, height:isResizeImage ? 300 : 300)
                         .scaledToFit()
-                        .foregroundColor(.accentColor)
-    //                    .frame(maxHeight: 250)
+                        .foregroundStyle(
+                            LinearGradient(
+                                gradient: Gradient(
+                                    colors: [.blue,.white,.white,.blue]
+                                ),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .cornerRadius(10)
             }
 
@@ -206,3 +218,4 @@ extension TutorialPage where CustomContent == EmptyView {
 #Preview{
     TutrialView(isTutrialSheet: .constant(true))
 }
+
