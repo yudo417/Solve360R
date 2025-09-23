@@ -21,16 +21,7 @@ struct homeView:View{
     var body:some View{
         ZStack {
             // 美しいグラデーション背景
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.2, blue: 0.4),
-                    Color(red: 0.2, green: 0.4, blue: 0.8),
-                    Color(red: 0.4, green: 0.6, blue: 1.0)
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            Colors.background
 
             // 装飾的な背景要素
             VStack {
