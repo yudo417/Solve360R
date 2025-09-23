@@ -1,9 +1,4 @@
-//
-//  ContentView.swift
-//  ARKitView1
-//
-//  Created by 林　一貴 on 2025/01/12.
-//
+
 
 import SwiftUI
 import RealityKit
@@ -19,7 +14,7 @@ enum PutItemKind {
 
 struct homeView:View{
     var onStart:() -> Void
-    @State var isTutrialSheet:Bool = false
+    @State var isRecordSheet:Bool = false
     @State var isInitalTutrial:Bool = true
     @State private var isAnimating = false
 
@@ -99,7 +94,7 @@ struct homeView:View{
 //                        if isInitalTutrial {
                             Button {
                                 isInitalTutrial = false
-                                isTutrialSheet.toggle()
+                                isRecordSheet.toggle()
                             } label: {
                                 ZStack {
                                     // ボタン背景
@@ -222,7 +217,7 @@ struct homeView:View{
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    isTutrialSheet = true
+                    isRecordSheet = true
                 } label: {
                     ZStack{
 
@@ -262,8 +257,8 @@ struct homeView:View{
                 .buttonStyle(.plain)
             }
         }
-        .fullScreenCover(isPresented: $isTutrialSheet) {
-            TutrialView(isTutrialSheet: $isTutrialSheet)
+        .fullScreenCover(isPresented: $isRecordSheet) {
+            RecordView(isRecordSheet: $isRecordSheet)
         }
         .onAppear {
             isAnimating = true

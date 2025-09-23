@@ -1,9 +1,4 @@
-//
-//  Solve360RUITestsLaunchTests.swift
-//  Solve360RUITests
-//
-//  Created by 林　一貴 on 2025/08/30.
-//
+
 
 import XCTest
 

@@ -1,9 +1,3 @@
-//
-//  Solve360RTests.swift
-//  Solve360RTests
-//
-//  Created by 林　一貴 on 2025/08/30.
-//
 
 import Testing
 @testable import Solve360R
