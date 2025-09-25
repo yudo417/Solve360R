@@ -9,7 +9,15 @@ struct RecordView: View {
         ZStack{
             Colors.background
 
-            
+            VStack{
+                ScrollView(showsIndicators: false){
+                    ForEach(0..<10, id: \.self) { _ in
+                        RecordRow()
+                            .padding(.vertical)
+                    }
+                }
+            }
+
         }
     }
 }
