@@ -11,8 +11,8 @@ struct RecordView: View {
 
             VStack{
                 ScrollView(showsIndicators: false){
-                    ForEach(0..<10, id: \.self) { _ in
-                        RecordRow(recordRank: "1", recordScore: "1", recordDate: Date())
+                    ForEach(0..<10, id: \.self) { i in
+                        RecordRow(recordRank: "\(i + 1)", recordScore: "\(i + 1)", recordDate: Date())
                             .padding(.vertical)
                     }
                 }

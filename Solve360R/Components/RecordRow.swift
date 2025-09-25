@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct RecordRow: View {
-    let df = DateFormatter()
     let recordRank: String
     let recordScore: String
     let recordDate: Date
+    let isMedalRecord: Bool = false
     let scoreStartPointX: Double = 0
     var body: some View {
         HStack(spacing: 0) {
@@ -21,15 +21,21 @@ struct RecordRow: View {
                         )
                     )
 
-                VStack(spacing: 5) {
+                HStack(spacing: 10) {
+                    Spacer()
+                    if (recordRank == "1" || recordRank == "2" || recordRank == "3"){
+                        Image(systemName: "medal")
+                            .foregroundStyle(rankColor)
+                            .font(.system(size: 35))
+                    }
                     Text("\(recordRank)")
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color(red: 0.95, green: 0.8, blue: 0.6))
-
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundStyle(rankColor)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 40)
             }
             .frame(width: 200, height: 100)
+//            .border(.red)
 
             ZStack {
                 scorePath
@@ -50,8 +56,10 @@ struct RecordRow: View {
 
                 }
                 .padding(.horizontal, 30)
+                .offset(x: 50)
             }
-            .frame(width: 500, height: 100)
+            .frame(width: 400, height: 100)
+//            .border(.red)
 
             ZStack {
                 datePath
@@ -66,14 +74,14 @@ struct RecordRow: View {
                     )
 
                 VStack(spacing: 5) {
-                    Text("\(recordDate)")
-                        .font(.system(size: 18, weight: .medium, design: .rounded))
-                        .foregroundStyle(Color(red: 0.95, green: 0.9, blue: 0.98))
+                    Text("\(outputDate)")
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .foregroundStyle(.black)
 
                 }
                 .padding(.horizontal, 20)
             }
-            .frame(width: 300, height: 100)
+            .frame(width: 400, height: 100)
 
         }
         .frame(height: 100)
@@ -83,6 +91,23 @@ struct RecordRow: View {
 
 
 extension RecordRow {
+
+    var outputDate: String{
+        let df = DateFormatter()
+        df.dateFormat = "yyyy / MM / dd"
+        return df.string(from:Date())
+    }
+
+    var rankColor: Color {
+        switch recordRank {
+        case "1": return Color.first
+        case "2": return Color.second
+        case "3": return Color.third
+        default: return Color.white
+        }
+    }
+
+    //MARK: - UIここから
 
     var rankPath: Path { // 左上から時計回り
         var path = Path()
@@ -109,10 +134,10 @@ extension RecordRow {
         var path = Path()
         path.move(to: CGPoint(x: 0, y: 100))
         path.addLine(to: CGPoint(x: 100, y: 0))
-        path.addLine(to: CGPoint(x: 200, y: 0))
-        path.addLine(to: CGPoint(x: 200, y: 100))
+        path.addLine(to: CGPoint(x: 300, y: 0))
+        path.addLine(to: CGPoint(x: 300, y: 100))
         path.closeSubpath()
-        path.addArc(center: CGPoint(x: 200, y: 50), radius: 50, startAngle: .degrees(90), endAngle: .degrees(270), clockwise: true)
+        path.addArc(center: CGPoint(x: 300, y: 50), radius: 50, startAngle: .degrees(90), endAngle: .degrees(270), clockwise: true)
         return path
     }
 }
