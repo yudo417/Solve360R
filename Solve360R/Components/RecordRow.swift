@@ -38,21 +38,21 @@ struct RecordRow: View {
 //            .border(.red)
 
             ZStack {
-                scorePath
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(red: 0.95, green: 0.7, blue: 0.5),
-                                Color(red: 0.9, green: 0.5, blue: 0.3)]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
+            scorePath
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0.7, green: 0.9, blue: 0.95),
+                            Color(red: 0.5, green: 0.8, blue: 0.9)]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
+                )
 
                 VStack(spacing: 5) {
                     Text("\(recordScore)")
                         .font(.system(size: 32, weight: .black, design: .rounded))
-                        .foregroundStyle(Color(red: 0.2, green: 0.1, blue: 0.05))
+                        .foregroundStyle(.black)
 
                 }
                 .padding(.horizontal, 30)
@@ -62,21 +62,21 @@ struct RecordRow: View {
 //            .border(.red)
 
             ZStack {
-                datePath
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(red: 0.8, green: 0.75, blue: 0.9),
-                                Color(red: 0.6, green: 0.65, blue: 0.85)]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
+            datePath
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0.9, green: 0.92, blue: 0.95),
+                            Color(red: 0.75, green: 0.8, blue: 0.85)]),
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
+                )
 
                 VStack(spacing: 5) {
                     Text("\(outputDate)")
                         .font(.system(size: 24, weight: .bold, design: .rounded))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(red: 0.05, green: 0.05, blue: 0.1))
 
                 }
                 .padding(.horizontal, 20)
