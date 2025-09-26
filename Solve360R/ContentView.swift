@@ -305,7 +305,7 @@ struct ContentView: View {
                             .navigationBarBackButtonHidden()
                     }.ignoresSafeArea(.all)
                 case .result:
-                    resultView(vm:vm,path:$path)
+                    ResultView(vm:vm,path:$path)
                         .navigationBarBackButtonHidden()
                 }
             }

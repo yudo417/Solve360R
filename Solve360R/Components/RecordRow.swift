@@ -36,7 +36,7 @@ struct RecordRow: View {
                             )
                     )
                     // 洗練された影
-                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                    .shadow(color: Color.black.opacity(0.9), radius: 10, x: 0, y: 2)
 
                 HStack(spacing: 12) {
                     Spacer()
@@ -81,7 +81,7 @@ struct RecordRow: View {
                         )
                 )
                 // 洗練された影
-                .shadow(color: Color.blue.opacity(0.2), radius: 4, x: 0, y: 2)
+                .shadow(color: Color.blue.opacity(0.9), radius: 20, x: 0, y: 2)
 
                 VStack(spacing: 3) {
                     Text("\(recordScore)")
@@ -121,7 +121,7 @@ struct RecordRow: View {
                         )
                 )
                 // 洗練された影
-                .shadow(color: Color.gray.opacity(0.2), radius: 3, x: 0, y: 2)
+                .shadow(color: Color.gray.opacity(0.5), radius: 10, x: 0, y: 2)
 
                 VStack(spacing: 3) {
                     Text("\(outputDate ?? "---")")

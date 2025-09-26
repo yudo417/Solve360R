@@ -6,7 +6,7 @@ import SwiftData
 struct RecordView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
-    @Query var records: [RecordData]
+    @Query(sort: \RecordData.score,order: .reverse) var records: [RecordData]
     @Binding var isRecordSheet: Bool
     var body: some View {
 
