@@ -85,7 +85,7 @@ struct homeView:View{
 //                        if isInitalTutrial {
                             Button {
                                 isInitalTutrial = false
-                                isRecordSheet.toggle()
+//                                isRecordSheet.toggle()
                             } label: {
                                 ZStack {
                                     // ボタン背景
