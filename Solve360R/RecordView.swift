@@ -1,9 +1,12 @@
 
 
 import SwiftUI
+import SwiftData
 
 struct RecordView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Query var records: [RecordData]
     @Binding var isRecordSheet: Bool
     var body: some View {
 
@@ -14,7 +17,25 @@ struct RecordView: View {
                 VStack{
                     ScrollView(showsIndicators: false){
                         ForEach(0..<10, id: \.self) { i in
-                            RecordRow(recordRank: "\(i + 1)", recordScore: "\(i + 1)", recordDate: Date())
+                            if i < records.count {
+                                       // 実際のデータがある場合
+                                       let record = records[i]
+                                       RecordRow(
+                                           recordRank: "\(i + 1)",
+                                           recordScore: "\(record.score)",
+                                           recordDate: record.date
+                                       )
+                                       .padding(.vertical)
+                                   } else {
+                                       // データがない場合（空の順位）
+                                       RecordRow(
+                                           recordRank: "\(i + 1)",
+                                           recordScore: "---",
+                                           recordDate: nil
+                                       )
+                                       .padding(.vertical)
+                                   }
+                               }
                                 .padding(.vertical)
                         }
                     }
@@ -33,7 +54,7 @@ struct RecordView: View {
             }
         }
     }
-}
+
 
 #Preview {
     RecordView(isRecordSheet: .constant(false))

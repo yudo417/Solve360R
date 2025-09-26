@@ -1,5 +1,6 @@
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Solve360RApp: App {
@@ -7,5 +8,6 @@ struct Solve360RApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: RecordData.self)
     }
 }

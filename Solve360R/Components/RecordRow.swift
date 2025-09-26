@@ -3,7 +3,7 @@ import SwiftUI
 struct RecordRow: View {
     let recordRank: String
     let recordScore: String
-    let recordDate: Date
+    let recordDate:Date?
     let isMedalRecord: Bool = false
     let scoreStartPointX: Double = 0
     var body: some View {
@@ -124,7 +124,7 @@ struct RecordRow: View {
                 .shadow(color: Color.gray.opacity(0.2), radius: 3, x: 0, y: 2)
 
                 VStack(spacing: 3) {
-                    Text("\(outputDate)")
+                    Text("\(outputDate ?? "---")")
                         .font(.system(size: 22, weight: .medium, design: .rounded))
                         .foregroundStyle(Color(red: 0.05, green: 0.05, blue: 0.1))
                         .shadow(color: Color.white.opacity(0.2), radius: 1, x: 0, y: 1)
@@ -142,10 +142,14 @@ struct RecordRow: View {
 
 extension RecordRow {
 
-    var outputDate: String{
-        let df = DateFormatter()
-        df.dateFormat = "yyyy / MM / dd"
-        return df.string(from:Date())
+    var outputDate: String?{
+        if let recordDate = recordDate{
+            let df = DateFormatter()
+            df.dateFormat = "yyyy / MM / dd"
+            return df.string(from:recordDate)
+        }else {
+            return nil
+        }
     }
 
     var rankColor: Color {

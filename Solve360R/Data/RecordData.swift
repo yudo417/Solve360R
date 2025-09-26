@@ -3,14 +3,14 @@ import SwiftUI
 import SwiftData
 
 @Model
-class Record{
+class RecordData{
 
-    init(score: String, date: Date) {
+    init(score: Int, date: Date) {
         self.score = score
         self.date = date
     }
 
-    var score: String
+    var score: Int
     var date: Date
 
 }
