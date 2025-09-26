@@ -10,29 +10,47 @@ struct RecordRow: View {
         HStack(spacing: 0) {
 
             ZStack {
+                // 洗練されたグラデーション背景
                 rankPath
                     .fill(
                         LinearGradient(
                             gradient: Gradient(colors: [
-                                Color(red: 0.15, green: 0.15, blue: 0.25),
-                                Color(red: 0.1, green: 0.1, blue: 0.2)]),
+                                Color(red: 0.25, green: 0.2, blue: 0.35),
+                                Color(red: 0.15, green: 0.1, blue: 0.25)]),
                             startPoint: .top,
                             endPoint: .bottom
                         )
                     )
+                    // 微妙なハイライト効果
+                    .overlay(
+                        rankPath
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.white.opacity(0.2),
+                                        Color.clear
+                                    ]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    )
+                    // 洗練された影
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
 
-                HStack(spacing: 10) {
+                HStack(spacing: 12) {
                     Spacer()
                     if (recordRank == "1" || recordRank == "2" || recordRank == "3"){
-                        Image(systemName: "medal")
+                        Image(systemName: "crown")
                             .foregroundStyle(rankColor)
                             .font(.system(size: 35))
                     }
                     Text("\(recordRank)")
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                         .foregroundStyle(rankColor)
+                        .shadow(color: Color.black.opacity(0.25), radius: 2, x: 0, y: 2)
                 }
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 25)
             }
             .frame(width: 200, height: 100)
 //            .border(.red)
@@ -42,21 +60,37 @@ struct RecordRow: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            Color(red: 0.7, green: 0.9, blue: 0.95),
-                            Color(red: 0.5, green: 0.8, blue: 0.9)]),
+                            Color(red: 0.75, green: 0.85, blue: 0.95),
+                            Color(red: 0.55, green: 0.75, blue: 0.85)]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
+                // ハイライト効果
+                .overlay(
+                    scorePath
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.white.opacity(0.4),
+                                    Color.clear
+                                ]),
+                                startPoint: .top,
+                                endPoint: .center
+                            )
+                        )
+                )
+                // 洗練された影
+                .shadow(color: Color.blue.opacity(0.2), radius: 4, x: 0, y: 2)
 
-                VStack(spacing: 5) {
+                VStack(spacing: 3) {
                     Text("\(recordScore)")
-                        .font(.system(size: 32, weight: .black, design: .rounded))
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
                         .foregroundStyle(.black)
-
+                        .shadow(color: Color.white.opacity(0.3), radius: 1, x: 0, y: 1)
                 }
-                .padding(.horizontal, 30)
-                .offset(x: 50)
+                .padding(.horizontal, 25)
+                .offset(x: 40)
             }
             .frame(width: 400, height: 100)
 //            .border(.red)
@@ -66,20 +100,36 @@ struct RecordRow: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            Color(red: 0.9, green: 0.92, blue: 0.95),
-                            Color(red: 0.75, green: 0.8, blue: 0.85)]),
+                            Color(red: 0.88, green: 0.9, blue: 0.95),
+                            Color(red: 0.7, green: 0.75, blue: 0.8)]),
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
+                // ハイライト効果
+                .overlay(
+                    datePath
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.white.opacity(0.4),
+                                    Color.clear
+                                ]),
+                                startPoint: .top,
+                                endPoint: .center
+                            )
+                        )
+                )
+                // 洗練された影
+                .shadow(color: Color.gray.opacity(0.2), radius: 3, x: 0, y: 2)
 
-                VStack(spacing: 5) {
+                VStack(spacing: 3) {
                     Text("\(outputDate)")
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .font(.system(size: 22, weight: .medium, design: .rounded))
                         .foregroundStyle(Color(red: 0.05, green: 0.05, blue: 0.1))
-
+                        .shadow(color: Color.white.opacity(0.2), radius: 1, x: 0, y: 1)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 18)
             }
             .frame(width: 400, height: 100)
 
