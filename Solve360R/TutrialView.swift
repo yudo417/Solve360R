@@ -1,30 +1,34 @@
 import SwiftUI
 
 struct TutrialView: View {
-    @Binding var isTutrialSheet: Bool
+//    @Binding var isTutrialSheet: Bool
     @State private var currentPage = 0
+    @Environment(\.dismiss) var dismiss
 
     // MARK: - Body
     var body: some View {
         ZStack{
 
             Colors.background
+            Group{
 
-            VStack(spacing: 20) {
-                closeButton
+                VStack(spacing: 10) {
 
-                TabView(selection: $currentPage) {
-                    step1.tag(0)
-                    step2.tag(1)
-                    step3.tag(2)
-                    step4.tag(3)
-                    step5.tag(4)
-                    step6.tag(5)
+                    TabView(selection: $currentPage) {
+                        step1.tag(0)
+                        step2.tag(1)
+                        step3.tag(2)
+                        step4.tag(3)
+                        step5.tag(4)
+                        step6.tag(5)
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+
+                    nextButton
                 }
-                .tabViewStyle(PageTabViewStyle())
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-
-                nextButton
+                .padding(.vertical,10)
+                BackButton()
             }
             .padding(30)
         }
@@ -38,14 +42,23 @@ private extension TutrialView {
 
     var closeButton: some View {
         HStack {
-            Spacer()
             Button {
-                isTutrialSheet = false
+                dismiss()
             } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.largeTitle)
-                    .foregroundStyle(.gray, .gray.opacity(0.2))
-            }
+                ZStack {
+                    // 背景円
+                    Circle()
+                        .fill(Color.white.opacity(0.9))
+                        .frame(width: 44, height: 44)
+
+                    // アイコン
+                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.black)
+                }
+                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)            }
+            .buttonStyle(.plain)
+            Spacer()
         }
     }
 
@@ -56,12 +69,12 @@ private extension TutrialView {
                     currentPage += 1
                 }
             } else {
-                isTutrialSheet = false
+                dismiss()
             }
         }) {
             HStack {
                 Text(currentPage < 5 ? "Next" : "Close")
-                Image(systemName: currentPage < 5 ? "arrow.right" : "play.fill")
+                Image(systemName: currentPage < 5 ? "arrow.right" : "arrow.down")
             }
             .font(.headline)
             .foregroundColor(.white)
@@ -216,6 +229,6 @@ extension TutorialPage where CustomContent == EmptyView {
 
 
 #Preview{
-    TutrialView(isTutrialSheet: .constant(true))
+    TutrialView()
 }
 

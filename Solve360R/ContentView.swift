@@ -15,7 +15,7 @@ enum PutItemKind {
 struct homeView:View{
     var onStart:() -> Void
     @State var isRecordSheet:Bool = false
-    @State var isInitalTutrial:Bool = true
+    @State var isHowSheet:Bool = false
     @State private var isAnimating = false
 
     var body:some View{
@@ -84,7 +84,7 @@ struct homeView:View{
                     VStack {
 //                        if isInitalTutrial {
                             Button {
-                                isInitalTutrial = false
+                                isHowSheet = true
 //                                isRecordSheet.toggle()
                             } label: {
                                 ZStack {
@@ -251,6 +251,9 @@ struct homeView:View{
         .fullScreenCover(isPresented: $isRecordSheet) {
             RecordView(isRecordSheet: $isRecordSheet)
         }
+        .fullScreenCover(isPresented: $isHowSheet) {
+            TutrialView()
+        }
         .onAppear {
             isAnimating = true
         }
@@ -313,6 +316,9 @@ struct ContentView: View {
                             ZStack {
                                 Color.black.ignoresSafeArea()
                                 PlaneDetectionOverlay()
+                                BackButton()
+                                    .padding(30)
+                                    .navigationBarBackButtonHidden()
                             }
                             
                         case .arReady:
@@ -321,6 +327,8 @@ struct ContentView: View {
                                 ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult,path: $path)
                                 
                                 ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+                                BackButton()
+                                    .padding(30)
                                     .navigationBarBackButtonHidden()
                             }
                         }
