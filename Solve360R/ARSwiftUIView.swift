@@ -161,6 +161,7 @@ extension ARSwiftUIView {
                                 .fill(
                                     LinearGradient(gradient: buttonGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
+                                .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 4)
                             Text("\(nb.number)")
                                 .font(.system(size: 60))
                                 .foregroundStyle(.white)
@@ -203,6 +204,20 @@ extension ARSwiftUIView {
                         )
                         .frame(width: 250, height: 100)
                         .overlay(Capsule().stroke(Color.blue,lineWidth:4))
+                        .overlay{
+                            Capsule()
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.white.opacity(0.2),
+                                            Color.clear
+                                        ]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                        }
+                        .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 4)
                     Text("Answer")
                         .foregroundStyle(.white)
                         .font(.system(size: 50))
