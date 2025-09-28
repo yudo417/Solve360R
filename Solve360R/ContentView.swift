@@ -283,6 +283,12 @@ struct ContentView: View {
     @State var recordCount:Int = 0
     @State var isresult : Bool = false
     @State  var path = [Screen]()
+    @State var gameLoadingPhase: GameLoadingPhase = .loading // ゲーム読み込みフェーズ
+    
+    enum GameLoadingPhase {
+        case loading        // 黒い画面でオーバーレイ表示
+        case arReady        // ARView + ゲームUI表示
+    }
     var body: some View {
 
         NavigationStack(path:$path){
@@ -300,10 +306,34 @@ struct ContentView: View {
                     }
                 case .game:
                     ZStack{
-                        ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult,path: $path)
-                        ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
-                            .navigationBarBackButtonHidden()
-                    }.ignoresSafeArea(.all)
+                        // フェーズに応じた表示制御
+                        switch gameLoadingPhase {
+                        case .loading:
+                            // 黒い画面 + オーバーレイ（ARView無し）
+                            ZStack {
+                                Color.black.ignoresSafeArea()
+                                PlaneDetectionOverlay()
+                            }
+                            
+                        case .arReady:
+                            // ARView + ゲームUI（再レンダリング無し）
+                            ZStack {
+                                ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult,path: $path)
+                                
+                                ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+                                    .navigationBarBackButtonHidden()
+                            }
+                        }
+                    }
+                    .ignoresSafeArea(.all)
+                    .onAppear {
+                        // 1秒後にARViewを表示
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                            withAnimation(.easeIn(duration: 1.0)){
+                                gameLoadingPhase = .arReady
+                            }
+                        }
+                    }
                 case .result:
                     ResultView(vm:vm,path:$path)
                         .navigationBarBackButtonHidden()
@@ -319,6 +349,88 @@ struct ContentView: View {
         isGameFinished = false
         recordCount = 0
         isresult = false
+        gameLoadingPhase = .loading // フェーズもリセット
+    }
+}
+
+// 平面検出中のオーバーレイUI
+struct PlaneDetectionOverlay: View {
+    @State private var isAnimating = false
+    @State private var pulseScale: CGFloat = 1.0
+    
+    var body: some View {
+        ZStack {
+            // 半透明の背景
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 40) {
+                // アニメーションするARアイコン
+                ZStack {
+                    // 外側のパルス効果
+                    Circle()
+                        .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                        .frame(width: 120, height: 120)
+                        .scaleEffect(pulseScale)
+                        .opacity(2.0 - pulseScale)
+                        .animation(
+                            Animation.easeInOut(duration: 2.0).repeatForever(autoreverses: false),
+                            value: pulseScale
+                        )
+                    
+                    // メインアイコン
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.1))
+                            .frame(width: 100, height: 100)
+                        
+                        Image(systemName: "camera.viewfinder")
+                            .font(.system(size: 50))
+                            .foregroundColor(.white)
+                            .scaleEffect(isAnimating ? 1.1 : 1.0)
+                            .animation(
+                                Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true),
+                                value: isAnimating
+                            )
+                    }
+                }
+                
+                VStack(spacing: 20) {
+                    Text("AR Title")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                    
+                    VStack(spacing: 10) {
+                        Text("AR SubTitle")
+                            .font(.title3)
+                            .foregroundColor(.white.opacity(0.9))
+
+                    }
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+                }
+                
+                // ヒントアイコン
+                HStack(spacing: 15) {
+                    Image(systemName: "iphone")
+//                        .font(.title2)
+                        .foregroundColor(.white.opacity(0.7))
+                    
+                    Image(systemName: "arrow.right")
+//                        .font(.title3)
+                        .foregroundColor(.white.opacity(0.5))
+                    
+                    Image(systemName: "table.furniture")
+//                        .font(.title2)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                .font(.system(size:50))
+            }
+        }
+        .onAppear {
+            isAnimating = true
+            pulseScale = 1.5
+        }
     }
 }
 

@@ -35,6 +35,38 @@
         }
       }
     },
+    "AR SubTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Point your device at a flat surface such as a desk"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "端末を机などの平面に向けてください"
+          }
+        }
+      }
+    },
+    "AR Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detecting a surface"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平面の検出を行います"
+          }
+        }
+      }
+    },
     "Back to Title" : {
       "localizations" : {
         "ja" : {
