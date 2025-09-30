@@ -20,6 +20,7 @@
 
     },
     "AppName" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -182,6 +183,9 @@
           }
         }
       }
+    },
+    "Solve360R" : {
+
     },
     "step1.description" : {
       "localizations" : {

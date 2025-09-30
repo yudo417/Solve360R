@@ -24,36 +24,16 @@ struct homeView:View{
             Colors.background
 
             // 装飾的な背景要素
-            VStack {
 
-
-                Spacer()
-
-                HStack {
-                    ForEach(0..<3) { i in
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white.opacity(0.05))
-                            .frame(width: 80, height: 80)
-                            .rotationEffect(.degrees(isAnimating ? 15 : -15))
-                            .animation(
-                                Animation.easeInOut(duration: 2.5)
-                                    .repeatForever(autoreverses: true)
-                                    .delay(Double(i) * 0.3),
-                                value: isAnimating
-                            )
-                    }
-                }
-                .offset(x: 250, y: 100)
-            }
 
             VStack(spacing: 40) {
                 Spacer()
 
                 // タイトルセクション
-                VStack(spacing: 20) {
+//                VStack(spacing: 20) {
                     // メインタイトル
-                    Text("AppName")
-                        .font(.system(size: 60, weight: .black, design: .rounded))
+                    Text("Solve360R")
+                    .font(.system(size:IsUtils.isPhone ? 50 : 60, weight: .black, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
                                 gradient: Gradient(colors: [Color.white, Color.cyan]),
@@ -63,18 +43,15 @@ struct homeView:View{
                         )
                         .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                         .scaleEffect(isAnimating ? 1.20 : 1.0)
-                        .animation(
-                            Animation.easeInOut(duration: 2)
-                                .repeatForever(autoreverses: true),
-                            value: isAnimating
-                        )
+                        .frame(maxWidth: .infinity)
+
 
                     // サブタイトル
 //                    Text("AR Math Adventure")
 //                        .font(.title2)
 //                        .foregroundColor(.white.opacity(0.8))
 //                        .fontWeight(.medium)
-                }
+//                }
 
                 Spacer()
 
@@ -255,7 +232,13 @@ struct homeView:View{
             TutrialView()
         }
         .onAppear {
-            isAnimating = true
+//            isAnimating = true
+                withAnimation(
+                    .easeInOut(duration: 2)
+                        .repeatForever(autoreverses: true)
+                ){
+                    isAnimating = true
+                }
         }
     }
 }

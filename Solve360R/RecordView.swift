@@ -11,39 +11,42 @@ struct RecordView: View {
     var body: some View {
 
         NavigationStack{
-            ZStack{
-                Colors.background
+            GeometryReader{ geometry in
+                ZStack{
+                    Colors.background
 
-                BackButton()
-                VStack{
-                    ScrollView(showsIndicators: false){
+                    VStack{
+                        ScrollView(showsIndicators: false){
 
 
-                        ForEach(0..<10, id: \.self) { i in
-                            if i < records.count {
-                                       // 実際のデータがある場合
-                                       let record = records[i]
-                                       RecordRow(
-                                           recordRank: "\(i + 1)",
-                                           recordScore: "\(record.score)",
-                                           recordDate: record.date
-                                       )
-                                       .padding(.vertical)
-                                   } else {
-                                       // データがない場合（空の順位）
-                                       RecordRow(
-                                           recordRank: "\(i + 1)",
-                                           recordScore: "---",
-                                           recordDate: nil
-                                       )
-                                       .padding(.vertical)
+                            ForEach(0..<10, id: \.self) { i in
+                                if i < records.count {
+                                           // 実際のデータがある場合
+                                           let record = records[i]
+                                           RecordRow(
+                                               recordRank: "\(i + 1)",
+                                               recordScore: "\(record.score)",
+                                               recordDate: record.date
+                                           )
+                                           .padding(.vertical)
+                                       } else {
+                                           // データがない場合（空の順位）
+                                           RecordRow(
+                                               recordRank: "\(i + 1)",
+                                               recordScore: "---",
+                                               recordDate: nil
+                                           )
+                                           .scaleModifier(geometry: geometry, frameWidth: 1.0, frameheight: 0.1, scalex: 0.45, scaley: 0.45)
+                                           .padding(.vertical)
+                                       }
                                    }
-                               }
-                                .padding(.vertical)
+                                    .padding(.vertical)
+                            }
                         }
+                    .padding(.horizontal,10)
+                    BackButton()
                     }
-                .padding(.horizontal,10)
-                }
+            }
 //                .toolbar{
 //                    ToolbarItem(placement: .topBarLeading) {
 //                        Button {
