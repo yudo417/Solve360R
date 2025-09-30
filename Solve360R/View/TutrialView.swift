@@ -1,36 +1,48 @@
 import SwiftUI
 
 struct TutrialView: View {
-//    @Binding var isTutrialSheet: Bool
+    var body: some View {
+        if IsUtils.isPhone {
+            TutrialPhoneView()
+        } else {
+            TutrialViewPad()
+        }
+    }
+}
+
+// 元のiPad用View
+struct TutrialViewPad: View {
     @State private var currentPage = 0
     @Environment(\.dismiss) var dismiss
 
     // MARK: - Body
     var body: some View {
-        ZStack{
+        GeometryReader{ geo in
+            ZStack{
 
-            Colors.background
-            Group{
+                Colors.background
+                Group{
 
-                VStack(spacing: 10) {
+                    VStack(spacing: 10) {
 
-                    TabView(selection: $currentPage) {
-                        step1.tag(0)
-                        step2.tag(1)
-                        step3.tag(2)
-                        step4.tag(3)
-                        step5.tag(4)
-                        step6.tag(5)
+                        TabView(selection: $currentPage) {
+                            step1.tag(0)
+                            step2.tag(1)
+                            step3.tag(2)
+                            step4.tag(3)
+                            step5.tag(4)
+                            step6.tag(5)
+                        }
+                        .tabViewStyle(PageTabViewStyle())
+                        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+
+                        nextButton
                     }
-                    .tabViewStyle(PageTabViewStyle())
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-
-                    nextButton
+                    .padding(.vertical,10)
+                    BackButton()
                 }
-                .padding(.vertical,10)
-                BackButton()
+                .padding(30)
             }
-            .padding(30)
         }
 //        .background(Color(.systemGroupedBackground))
         .edgesIgnoringSafeArea(.all)
@@ -38,7 +50,7 @@ struct TutrialView: View {
 }
 
 // MARK: - Views
-private extension TutrialView {
+private extension TutrialViewPad {
 
     var closeButton: some View {
         HStack {
@@ -229,6 +241,6 @@ extension TutorialPage where CustomContent == EmptyView {
 
 
 #Preview{
-    TutrialView()
+    TutrialViewPad()
 }
 
