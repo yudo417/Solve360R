@@ -298,8 +298,11 @@ struct ContentView: View {
                             // 黒い画面 + オーバーレイ（ARView無し）
                             ZStack {
                                 Color.black.ignoresSafeArea()
-                                PlaneDetectionOverlay()
-                                BackButton()
+                                GeometryReader{ geo in
+                                    PlaneDetectionOverlay()
+                                        .scaleModifier(geometry: geo, frameWidth:  1, frameheight:  1,scalex: 0.8,scaley: 0.8)
+                                }
+                                    BackButton()
                                     .padding(30)
                                     .navigationBarBackButtonHidden()
                             }
@@ -309,7 +312,11 @@ struct ContentView: View {
                             ZStack {
                                 ARViewContainer(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,isresult: $isresult,path: $path)
                                 
-                                ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+                                if IsUtils.isPhone{
+                                    ARSwiftUIPhoneView(vm: vm, isGameStarted: $isGameStarted, isGameFinished: $isGameFinished, recordCount: $recordCount)
+                                }else{
+                                    ARSwiftUIView(vm:vm,isGameStarted: $isGameStarted,isGameFinished: $isGameFinished,recordCount: $recordCount)
+                                }
                                 BackButton()
                                     .padding(30)
                                     .navigationBarBackButtonHidden()

@@ -1,16 +1,9 @@
+
 import SwiftUI
 import AVFoundation
 import Combine
 
-struct NumberButton:Identifiable {
-    let id = UUID()
-    var isselected:Bool
-    var number :Int
-
-}
-
-struct ARSwiftUIView: View {
-
+struct ARSwiftUIPhoneView: View {
     @State var numberbutton:[NumberButton] = (1...9).map{ NumberButton(isselected: false, number: $0) }
     @State var selectedNumber:Int = 0
     @ObservedObject var vm : ARViewModel
@@ -27,9 +20,9 @@ struct ARSwiftUIView: View {
         .init(color: Color.blue.opacity(0.8), location: 1.0),
     ])
     let buttonSelectedGradient = Gradient(stops: [
-        .init(color: Color(red: 0.0, green: 0.3, blue: 0.6).opacity(1.0), location: 0.0), // 濃いブルー
-        .init(color: Color(red: 0.0, green: 0.5, blue: 0.8).opacity(1.0), location: 0.5), // 中間のブルー
-        .init(color: Color(red: 0.0, green: 0.7, blue: 1.0).opacity(1.0), location: 1.0)  // 鮮やかなシアン
+        .init(color: Color(red: 0.0, green: 0.3, blue: 0.6).opacity(1.0), location: 0.0),
+        .init(color: Color(red: 0.0, green: 0.5, blue: 0.8).opacity(1.0), location: 0.5),
+        .init(color: Color(red: 0.0, green: 0.7, blue: 1.0).opacity(1.0), location: 1.0)
     ])
     let answerGradient = Gradient(stops: [
         .init(color: Color(red:0.0,green:0.7,blue:1.0).opacity(0.8),location:0.0),
@@ -39,122 +32,123 @@ struct ARSwiftUIView: View {
         .init(color: Color(red:0.0,green:0.7,blue:1.0).opacity(0.8),location:1.0),
     ])
 
-    //-MARK: ContentView
     var body: some View {
-
-            VStack{
-                HStack{
-                    Spacer()
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(.white)
-                            .opacity(0.5)
-                        HStack{
-                            Text("Remaining Life").foregroundStyle(.black)
-                            HStack{
-                                ForEach(0..<nowlife,id:\.self) { _ in
-                                    Image(systemName: "heart.fill").foregroundStyle(.red)
-                                }
-                                ForEach(nowlife..<3,id:\.self) { _ in
-                                    Image(systemName: "heart").foregroundStyle(.red)
-                                }
-                            }
-                        }
-                    }.frame(width: 400, height: 60)
-                    Spacer()
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(.white)
-                            .opacity(0.5)
-                        HStack{
-                            Image(systemName: "clock").foregroundStyle(.black)
-                            Text("Remaining Time：") .font(.title)
-                                .foregroundStyle(.black)
-                            Text(String(format: " %.1f", timeRemaining)) .font(.title)
-                                .foregroundStyle(.black)
-                        }
-                    }.frame(width: 400, height: 60)
-                        .padding()
-                    Spacer()
-                }.font(.title)
-                    .padding(.top,20)
+        VStack(spacing: 5) {
+            // 上部: Life と Time を横並び（横幅拡大）
+            HStack(spacing: 15) {
                 Spacer()
+                // Life
                 ZStack{
-                    RoundedRectangle(cornerRadius: 60)
+                    RoundedRectangle(cornerRadius: 15)
                         .foregroundStyle(.white)
-                        .frame(height: 300)
                         .opacity(0.5)
-                        .overlay {
-                            VStack(spacing:20){
-                                numberButton
-                                answerButton
+                    HStack(spacing: 5){
+                        Text("Life").foregroundStyle(.black).font(.subheadline)
+                        HStack(spacing: 3){
+                            ForEach(0..<nowlife,id:\.self) { _ in
+                                Image(systemName: "heart.fill").foregroundStyle(.red).font(.subheadline)
                             }
-                            .padding()
+                            ForEach(nowlife..<3,id:\.self) { _ in
+                                Image(systemName: "heart").foregroundStyle(.red).font(.subheadline)
+                            }
                         }
+                    }
                 }
-                .padding(50)
-            }
+                .frame(width: 180, height: 45)
+                Spacer()
 
-        .onAppear { // ビューが表示されたらタイマー開始
-                    startTimer()
-                }
+                // Time
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundStyle(.white)
+                                    .opacity(0.5)
+                                HStack(spacing: 5){
+                                    Image(systemName: "clock").foregroundStyle(.black).font(.subheadline)
+                                    Text("Remaining Time：") .font(.subheadline).foregroundStyle(.black)
+                                    Text(String(format: "%.1f", timeRemaining))
+                                        .font(.subheadline)
+                                        .foregroundStyle(.black)
+                                }
+                            }
+                .frame(width: 180, height: 45)
+                Spacer()
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            // 下部: 数字ボタン + 回答ボタン
+            ZStack{
+                RoundedRectangle(cornerRadius: 30)
+                    .foregroundStyle(.white)
+                    .frame(width: 650,height: 100)
+                    .opacity(0.5)
+                    .overlay {
+                        VStack(spacing: 5){
+                            numberButton
+                            answerButton
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 8)
+                    }
+            }
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
+        }
+        .onAppear {
+            startTimer()
+        }
         .onReceive(Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()) { _ in
             if isGameStarted && !isGameFinished && timeRemaining > 0 {
                 if timeRemaining != 0 {
                     timeRemaining -= 0.1
                 }
-                    } else if isGameStarted && !isGameFinished && timeRemaining <= 0 {
-                        handleTimeUp()
-                    }
-                }
+            } else if isGameStarted && !isGameFinished && timeRemaining <= 0.1 {
+                handleTimeUp()
+            }
+        }
         .onChange(of: isGameStarted) { oldValue, newValue in
             if newValue{
                 startTimer()
             }
         }
-
     }
+    
     @MainActor
-       private func startTimer() {
-           timeRemaining = 60
-       }
-//    @MainActor
-//    private func stopTimer() {
-//            timer?.invalidate()
-//            timer = nil
-//        }
+    private func startTimer() {
+        timeRemaining = 60
+    }
+    
     @MainActor
     private func handleTimeUp() {
-//           stopTimer()
-           print("時間切れ！ゲームオーバー")
+        print("時間切れ！ゲームオーバー")
         finishAction()
-//           startTimer() // 再スタート
-       }
-
+    }
 }
 
-
-
-extension ARSwiftUIView {
+extension ARSwiftUIPhoneView {
     private var numberButton :some View{
-        HStack{
+        HStack(spacing: 20){
             ForEach(numberbutton){nb in
                 Button {
                     numberbutton.map{numberbutton[$0.number - 1].isselected = false}
                     numberbutton[nb.number - 1].isselected = true
                     vm.selectedNumber = nb.number
-
                 } label: {
                     ZStack{
                         if nb.isselected{
                             Circle()
-                                .scale(1.1)
+//                                .scale(0.8)
                                 .fill(
                                     LinearGradient(gradient: buttonSelectedGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
-                                .overlay(Circle().scale(1.1).stroke(Color.blue,lineWidth:5))
+                                .scaleEffect(1.2)
+                                .overlay(Circle().scale(1.2).stroke(Color.blue,lineWidth:2))
+//                                .frame(width: 55)
+//                                .border(.red)
                             Text("\(nb.number)")
-                                .font(.system(size: 85))
+                                .font(.system(size: 32))
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
                         }else{
@@ -162,25 +156,25 @@ extension ARSwiftUIView {
                                 .fill(
                                     LinearGradient(gradient: buttonGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
-                                .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 4)
+                                .scaleEffect(1.1)
+                                .shadow(color: .black.opacity(0.2), radius: 3, x: 1, y: 1)
+//                                .border(.red)
                             Text("\(nb.number)")
-                                .font(.system(size: 60))
+                                .font(.system(size: 24))
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
                         }
-
                     }
-                    .padding(.horizontal,3)
+//                    .frame(height: 50)
+                    .padding(.horizontal,1)
                 }.buttonStyle(.plain)
-
-
             }
         }
-        .padding(.bottom,10)
+        .padding(.bottom,3)
     }
 
     private var answerButton : some View{
-        Button{//Answer Button
+        Button{
             print("Selected Number : \(vm.selectedNumber)")
             print("Generated Number : \(vm.generatedAnswer)")
             vm.compareNumber()
@@ -193,9 +187,6 @@ extension ARSwiftUIView {
             vm.selectedNumber = 0
             print(nowlife)
             print(vm.isCorrect)
-            // HPが1かつ不正解のときはブロック生成をスルー
-//                NotificationCenter.default.post(name: .genereteBox, object: nil)
-
         } label: {
             if numberbutton.allSatisfy{ !$0.isselected }{
                 ZStack{
@@ -203,8 +194,8 @@ extension ARSwiftUIView {
                         .fill(
                             LinearGradient(gradient: answerGradient, startPoint: .leading, endPoint: .trailing)
                         )
-                        .frame(width: 250, height: 100)
-                        .overlay(Capsule().stroke(Color.blue,lineWidth:4))
+                        .frame(width: 160, height: 35)
+                        .overlay(Capsule().stroke(Color.blue,lineWidth:2))
                         .overlay{
                             Capsule()
                                 .fill(
@@ -218,37 +209,36 @@ extension ARSwiftUIView {
                                     )
                                 )
                         }
-                        .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 4)
+                        .shadow(color: .black.opacity(0.6), radius: 3, x: 1, y: 1)
                     Text("Answer")
                         .foregroundStyle(.white)
-                        .font(.system(size: 50))
+                        .font(.system(size: 20))
                 }
+                .offset(y:3)
             }else{
                 ZStack{
                     Capsule()
                         .fill(
                             LinearGradient(gradient: answerGradient, startPoint: .leading, endPoint: .trailing)
                         )
-                        .frame(width: 250, height: 100)
-                        .overlay(Capsule().stroke(Color.blue,lineWidth:4))
-                        .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 4)
+                        .frame(width: 160, height: 35)
+                        .overlay(Capsule().stroke(Color.blue,lineWidth:2))
+                        .shadow(color: .black.opacity(0.6), radius: 3, x: 1, y: 1)
                     Text("Answer")
                         .foregroundStyle(.white)
-                        .font(.system(size: 50))
+                        .font(.system(size: 20))
                 }
-                .offset(y:-15.5)
+                .offset(y:3)
             }
         }.buttonStyle(.plain)
-            .frame(width: 300,height: 100)
+            .frame(width: 180, height: 35)
     }
 
     func judgeHP(){
         if (!(vm.isCorrect ?? false)) && nowlife == 1{
             print("gameOver")
-
             nowlife -= 1
             self.finishAction()
-
         }else if !(vm.isCorrect ?? false){
             vm.coordinator?.OutSound()
             nowlife -= 1
@@ -265,12 +255,13 @@ extension ARSwiftUIView {
         isGameFinished = true
         NotificationCenter.default.post(name: .finishGame, object: nil)
     }
-
-
-
-}
-#Preview{
-    ResultView(vm: ARViewModel(), path: .constant([]))
 }
 
-
+#Preview {
+    ARSwiftUIPhoneView(
+        vm: ARViewModel(),
+        isGameStarted: .constant(true),
+        isGameFinished: .constant(false),
+        recordCount: .constant(0)
+    )
+}
