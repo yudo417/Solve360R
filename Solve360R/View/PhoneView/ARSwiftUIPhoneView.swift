@@ -24,12 +24,15 @@ struct ARSwiftUIPhoneView: View {
         .init(color: Color(red: 0.0, green: 0.5, blue: 0.8).opacity(1.0), location: 0.5),
         .init(color: Color(red: 0.0, green: 0.7, blue: 1.0).opacity(1.0), location: 1.0)
     ])
-    let answerGradient = Gradient(stops: [
-        .init(color: Color(red:0.0,green:0.7,blue:1.0).opacity(0.8),location:0.0),
-        .init(color: Color(red:0.0,green:0.4,blue:0.8).opacity(0.8),location:0.4),
-        .init(color: Color(red:0.0,green:0.4,blue:0.75).opacity(0.8),location:0.5),
-        .init(color: Color(red:0.0,green:0.4,blue:0.8).opacity(0.8),location:0.6),
-        .init(color: Color(red:0.0,green:0.7,blue:1.0).opacity(0.8),location:1.0),
+    let answerGradientActive = Gradient(stops: [
+        .init(color: Color(red:0.1,green:0.8,blue:1.0).opacity(1.0),location:0.0),
+        .init(color: Color(red:0.0,green:0.6,blue:1.0).opacity(1.0),location:0.5),
+        .init(color: Color(red:0.1,green:0.8,blue:1.0).opacity(1.0),location:1.0),
+    ])
+    let answerGradientInactive = Gradient(stops: [
+        .init(color: Color(red:0.3,green:0.5,blue:0.8).opacity(0.7),location:0.0),
+        .init(color: Color(red:0.2,green:0.4,blue:0.7).opacity(0.7),location:0.5),
+        .init(color: Color(red:0.3,green:0.5,blue:0.8).opacity(0.7),location:1.0),
     ])
 
     var body: some View {
@@ -139,33 +142,83 @@ extension ARSwiftUIPhoneView {
                     ZStack{
                         if nb.isselected{
                             Circle()
-//                                .scale(0.8)
                                 .fill(
                                     LinearGradient(gradient: buttonSelectedGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
                                 .scaleEffect(1.2)
-                                .overlay(Circle().scale(1.2).stroke(Color.blue,lineWidth:2))
-//                                .frame(width: 55)
-//                                .border(.red)
+                                .overlay(
+                                    Circle()
+                                        .scale(1.2)
+                                        .stroke(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.6),
+                                                    Color.cyan.opacity(0.8)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 2
+                                        )
+                                )
+                                .shadow(color: Color.cyan.opacity(0.6), radius: 8, x: 0, y: 0)
+                                .shadow(color: .black.opacity(0.3), radius: 4, x: 1, y: 2)
+                                .overlay(
+                                    Circle()
+                                        .scale(1.2)
+                                        .fill(
+                                            RadialGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.3),
+                                                    Color.clear
+                                                ]),
+                                                center: .topLeading,
+                                                startRadius: 2,
+                                                endRadius: 20
+                                            )
+                                        )
+                                )
                             Text("\(nb.number)")
                                 .font(.system(size: 32))
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
+                                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
                         }else{
                             Circle()
                                 .fill(
                                     LinearGradient(gradient: buttonGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
                                 .scaleEffect(1.1)
-                                .shadow(color: .black.opacity(0.2), radius: 3, x: 1, y: 1)
-//                                .border(.red)
+                                .overlay(
+                                    Circle()
+                                        .scale(1.1)
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                        .blur(radius: 0.5)
+                                )
+                                .shadow(color: .black.opacity(0.3), radius: 4, x: 1, y: 2)
+                                .shadow(color: Color.blue.opacity(0.3), radius: 3, x: 0, y: 0)
+                                .overlay(
+                                    Circle()
+                                        .scale(1.1)
+                                        .fill(
+                                            RadialGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.25),
+                                                    Color.clear
+                                                ]),
+                                                center: .topLeading,
+                                                startRadius: 2,
+                                                endRadius: 18
+                                            )
+                                        )
+                                )
                             Text("\(nb.number)")
                                 .font(.system(size: 24))
                                 .foregroundStyle(.white)
                                 .fontWeight(.heavy)
+                                .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
                         }
                     }
-//                    .frame(height: 50)
                     .padding(.horizontal,1)
                 }.buttonStyle(.plain)
             }
@@ -188,48 +241,58 @@ extension ARSwiftUIPhoneView {
             print(nowlife)
             print(vm.isCorrect)
         } label: {
-            if numberbutton.allSatisfy{ !$0.isselected }{
-                ZStack{
-                    Capsule()
-                        .fill(
-                            LinearGradient(gradient: answerGradient, startPoint: .leading, endPoint: .trailing)
+            let isSelected = !numberbutton.allSatisfy{ !$0.isselected }
+            ZStack{
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            gradient: isSelected ? answerGradientActive : answerGradientInactive,
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
-                        .frame(width: 160, height: 35)
-                        .overlay(Capsule().stroke(Color.blue,lineWidth:2))
-                        .overlay{
-                            Capsule()
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color.white.opacity(0.2),
-                                            Color.clear
-                                        ]),
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
+                    )
+                    .frame(width: 160, height: 35)
+                    .overlay(
+                        Capsule()
+                            .stroke(
+                                LinearGradient(
+                                    gradient: Gradient(colors: isSelected ? [
+                                        Color.white.opacity(0.6),
+                                        Color.cyan.opacity(0.9),
+                                        Color.white.opacity(0.6)
+                                    ] : [
+                                        Color.blue.opacity(0.4),
+                                        Color.blue.opacity(0.3)
+                                    ]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                ),
+                                lineWidth: isSelected ? 2.5 : 1.5
+                            )
+                    )
+                    .overlay{
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.white.opacity(isSelected ? 0.35 : 0.15),
+                                        Color.clear
+                                    ]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
                                 )
-                        }
-                        .shadow(color: .black.opacity(0.6), radius: 3, x: 1, y: 1)
-                    Text("Answer")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 20))
-                }
-                .offset(y:3)
-            }else{
-                ZStack{
-                    Capsule()
-                        .fill(
-                            LinearGradient(gradient: answerGradient, startPoint: .leading, endPoint: .trailing)
-                        )
-                        .frame(width: 160, height: 35)
-                        .overlay(Capsule().stroke(Color.blue,lineWidth:2))
-                        .shadow(color: .black.opacity(0.6), radius: 3, x: 1, y: 1)
-                    Text("Answer")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 20))
-                }
-                .offset(y:3)
+                            )
+                    }
+                    .shadow(color: isSelected ? Color.cyan.opacity(0.6) : .clear, radius: 8, x: 0, y: 0)
+                    .shadow(color: .black.opacity(0.4), radius: 3, x: 1, y: 1)
+                Text("Answer")
+                    .foregroundStyle(.white)
+                    .font(.system(size: 20))
+                    .fontWeight(isSelected ? .bold : .semibold)
+                    .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
             }
+            .offset(y:3)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
         }.buttonStyle(.plain)
             .frame(width: 180, height: 35)
     }
