@@ -68,6 +68,9 @@
         }
       }
     },
+    "BACK TO HOME" : {
+
+    },
     "Back to Title" : {
       "localizations" : {
         "ja" : {
@@ -118,6 +121,9 @@
         }
       }
     },
+    "GAME Complete!" : {
+
+    },
     "How?" : {
       "localizations" : {
         "ja" : {
@@ -150,6 +156,9 @@
           }
         }
       }
+    },
+    "pts" : {
+
     },
     "record" : {
       "localizations" : {
