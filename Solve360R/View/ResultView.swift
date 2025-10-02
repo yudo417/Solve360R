@@ -110,7 +110,7 @@ struct ResultView:View{
                                     .tracking(2.2)
                                     .shadow(color: Color(red: 0.3, green: 0.5, blue: 0.9).opacity(0.5), radius: 5, x: 0, y: 3)
                                     .overlay(
-                                        Text("GAME Complete!")
+                                        Text("GAME Finished!")
                                             .font(.system(size: 32, weight: .black, design: .rounded))
                                             .foregroundStyle(
                                                 LinearGradient(
@@ -220,7 +220,7 @@ struct ResultView:View{
                                     .font(.title2)
                                     .foregroundColor(.white)
 
-                                Text("Back to Title")
+                                Text("BACK TO HOME")
                                     .font(.system(size: 24, weight: .semibold, design: .rounded))
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)

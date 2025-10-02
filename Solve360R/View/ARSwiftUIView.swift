@@ -151,13 +151,12 @@ extension ARSwiftUIView {
                     ZStack{
                         if nb.isselected{
                             Circle()
-                                .scale(1.1)
                                 .fill(
                                     LinearGradient(gradient: buttonSelectedGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                                 )
+                                .scaleEffect(1.1)
                                 .overlay(
                                     Circle()
-                                        .scale(1.1)
                                         .stroke(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
@@ -169,12 +168,12 @@ extension ARSwiftUIView {
                                             ),
                                             lineWidth: 5
                                         )
+                                        .scaleEffect(1.1)
                                 )
                                 .shadow(color: Color.cyan.opacity(0.6), radius: 15, x: 0, y: 0)
                                 .shadow(color: .black.opacity(0.3), radius: 8, x: 2, y: 4)
                                 .overlay(
                                     Circle()
-                                        .scale(1.1)
                                         .fill(
                                             RadialGradient(
                                                 gradient: Gradient(colors: [
@@ -186,6 +185,7 @@ extension ARSwiftUIView {
                                                 endRadius: 50
                                             )
                                         )
+                                        .scaleEffect(1.1)
                                 )
                             Text("\(nb.number)")
                                 .font(.system(size: 85))

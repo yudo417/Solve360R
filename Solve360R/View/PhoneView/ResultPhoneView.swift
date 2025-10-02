@@ -89,7 +89,7 @@ struct ResultPhoneView: View {
                     
                     // 右: スコア情報（メインコンテンツ）
                     VStack(alignment: .center, spacing: 6) {
-                        Text("GAME Complete!")
+                        Text("GAME Finished!")
                             .font(.system(size: 30, weight: .black, design: .rounded))
                             .foregroundStyle(
                                 LinearGradient(
@@ -104,7 +104,7 @@ struct ResultPhoneView: View {
                             .tracking(2.2)
                             .shadow(color: Color(red: 0.3, green: 0.5, blue: 0.9).opacity(0.5), radius: 5, x: 0, y: 3)
                             .overlay(
-                                Text("GAME Complete!")
+                                Text("GAME Finished!")
                                     .font(.system(size: 30, weight: .black, design: .rounded))
                                     .foregroundStyle(
                                         LinearGradient(

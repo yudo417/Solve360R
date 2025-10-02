@@ -28,6 +28,7 @@ struct RecordView: View {
                                                recordScore: "\(record.score)",
                                                recordDate: record.date
                                            )
+                                             .scaleModifier(geometry: geometry, frameWidth: 1.0, frameheight: 0.1, scalex: 0.45, scaley: 0.45)
                                            .padding(.vertical)
                                        } else {
                                            // データがない場合（空の順位）

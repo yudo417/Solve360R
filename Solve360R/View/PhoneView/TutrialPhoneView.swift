@@ -31,9 +31,18 @@ struct TutrialPhoneView: View {
                             title: "step3.title",
                             customContent: {
                                 HStack(spacing: 15) {
-                                    Text("2").font(.system(size: 50, weight: .bold)).foregroundColor(.white)
-                                    Text("<").font(.system(size: 50, weight: .light)).foregroundColor(.white)
-                                    Text("6").font(.system(size: 50, weight: .bold)).foregroundColor(.white)
+                                    Text("2")
+                                        .font(.system(size: 50, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .outlineModifier(outlineWidth: 1, outlineRadius: 2, outlineColor: .black)
+                                    Text("<")
+                                        .font(.system(size: 50, weight: .light))
+                                        .foregroundColor(.white)
+                                        .outlineModifier(outlineWidth: 1, outlineRadius: 2, outlineColor: .black)
+                                    Text("6")
+                                        .font(.system(size: 50, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .outlineModifier(outlineWidth: 1, outlineRadius: 2, outlineColor: .black)
                                 }
                             },
                             description: "step3.description"
@@ -44,12 +53,28 @@ struct TutrialPhoneView: View {
                             customContent: {
                                 VStack(spacing: 10) {
                                     VStack(spacing: 5) {
-                                        Text("Front View").font(.caption2).foregroundColor(.white)
-                                        Image("ex1").resizable().scaledToFit().frame(width: 120).cornerRadius(8)
+                                        Text("Front View")
+                                            .font(.caption2)
+                                            .foregroundColor(.white)
+                                            .outlineModifier(outlineWidth: 1, outlineRadius: 1.5, outlineColor: .black)
+                                        Image("ex1")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 120)
+                                            .cornerRadius(8)
+                                            .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
                                     }
                                     VStack(spacing: 5) {
-                                        Text("Back View").font(.caption2).foregroundColor(.white)
-                                        Image("ex2").resizable().scaledToFit().frame(width: 120).cornerRadius(8)
+                                        Text("Back View")
+                                            .font(.caption2)
+                                            .foregroundColor(.white)
+                                            .outlineModifier(outlineWidth: 1, outlineRadius: 1.5, outlineColor: .black)
+                                        Image("ex2")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 120)
+                                            .cornerRadius(8)
+                                            .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 3)
                                     }
                                 }
                             },
@@ -77,6 +102,8 @@ struct TutrialPhoneView: View {
                             Circle()
                                 .fill(currentPage == index ? Color.white : Color.white.opacity(0.3))
                                 .frame(width: 6, height: 6)
+                                .shadow(color: currentPage == index ? Color.white.opacity(0.5) : .clear, radius: 3, x: 0, y: 0)
+                                .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
                         }
                     }
                     .padding(.vertical, 8)
@@ -96,12 +123,54 @@ struct TutrialPhoneView: View {
                             Image(systemName: currentPage < 5 ? "arrow.right" : "checkmark")
                         }
                         .font(.subheadline)
-                        .foregroundColor(.white)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(red: 0.1, green: 0.3, blue: 0.7),
+                                    Color(red: 0.0, green: 0.2, blue: 0.5)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
                         .padding(.horizontal, 30)
                         .padding(.vertical, 10)
-                        .background(Color.blue)
-                        .cornerRadius(12)
+                        .background(
+                            Capsule()
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(stops: [
+                                            .init(color: Color.white.opacity(0.95), location: 0.0),
+                                            .init(color: Color.white.opacity(0.85), location: 1.0)
+                                        ]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .overlay(
+                                    Capsule()
+                                        .fill(
+                                            RadialGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.6),
+                                                    Color.clear
+                                                ]),
+                                                center: .topLeading,
+                                                startRadius: 5,
+                                                endRadius: 30
+                                            )
+                                        )
+                                )
+                                .overlay(
+                                    Capsule()
+                                        .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
+                                )
+                                .shadow(color: .white.opacity(0.3), radius: 4, x: 0, y: 0)
+                                .shadow(color: .black.opacity(0.25), radius: 6, x: 0, y: 3)
+                        )
                     }
+                    .buttonStyle(.plain)
                     .padding(.bottom, 15)
                 }
                 BackButton()
@@ -156,6 +225,7 @@ struct PhoneTutorialPage<CustomContent: View>: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
+                            .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 3)
                     }
                 } else if let imageName = imageName {
                     Image(imageName)
@@ -163,6 +233,7 @@ struct PhoneTutorialPage<CustomContent: View>: View {
 //                        .scaledToFit()
                         .frame(width: 200, height: 180)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 3)
                 } else if let content = customContent {
                     content
                 }
@@ -176,12 +247,14 @@ struct PhoneTutorialPage<CustomContent: View>: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
+                    .outlineModifier(outlineWidth: 1, outlineRadius: 2, outlineColor: .black)
                 
                 Text(description)
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.9))
+                    .font(.body)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
                     .lineLimit(nil)
+                    .outlineModifier(outlineWidth: 0.5, outlineRadius: 1, outlineColor: .black)
             }
 //            .frame(maxWidth: .infinity, alignment: .leading)
             

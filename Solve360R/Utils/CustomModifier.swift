@@ -39,8 +39,29 @@ struct ScaleButtonStyle: ButtonStyle {
     }
 }
 
+struct OutlineModifier: ViewModifier {
+    let outlineWidth: CGFloat
+    let outlineRadius: CGFloat
+    let outlineColor: Color
+
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: outlineColor, radius: 0, x: -outlineWidth, y: -outlineWidth)
+            .shadow(color: outlineColor, radius: 0, x: outlineWidth, y: -outlineWidth)
+            .shadow(color: outlineColor, radius: 0, x: -outlineWidth, y: outlineWidth)
+            .shadow(color: outlineColor, radius: 0, x: outlineWidth, y: outlineWidth)
+            .shadow(color: outlineColor.opacity(0.6), radius: outlineRadius, x: 0, y: 0)
+    }
+}
+
 extension View {
     func scaleModifier(geometry: GeometryProxy, frameWidth: CGFloat , frameheight: CGFloat, scalex: CGFloat? = nil, scaley: CGFloat? = nil) -> some View {
         self.modifier(ScaleModifier(geometry: geometry, frameWidth: frameWidth, frameheight: frameheight, scalex: scalex, scaley: scaley))
     }
+
+    func outlineModifier(outlineWidth: CGFloat, outlineRadius: CGFloat, outlineColor: Color) -> some View {
+        self.modifier(OutlineModifier(outlineWidth: outlineWidth, outlineRadius: outlineRadius, outlineColor: outlineColor))
+    }
 }
+
+
