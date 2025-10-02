@@ -31,6 +31,14 @@ struct ScaleModifier: ViewModifier {
     }
 }
 
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 extension View {
     func scaleModifier(geometry: GeometryProxy, frameWidth: CGFloat , frameheight: CGFloat, scalex: CGFloat? = nil, scaley: CGFloat? = nil) -> some View {
         self.modifier(ScaleModifier(geometry: geometry, frameWidth: frameWidth, frameheight: frameheight, scalex: scalex, scaley: scaley))

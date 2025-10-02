@@ -18,15 +18,29 @@ struct ResultPhoneView: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            Color.white.opacity(0.9),
-                            Color.white.opacity(0.7)
+                            Color(red: 0.95, green: 0.97, blue: 1.0).opacity(0.95),
+                            Color(red: 0.88, green: 0.92, blue: 0.98).opacity(0.85)
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.8),
+                                    Color(red: 0.7, green: 0.8, blue: 0.95).opacity(0.5)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 2
+                        )
+                )
                 .frame(width: 550, height: 300)
-                .shadow(color: .black.opacity(0.4), radius: 20, x: 0, y: 10)
+                .shadow(color: Color(red: 0.3, green: 0.4, blue: 0.6).opacity(0.3), radius: 30, x: 0, y: 15)
 
             VStack(spacing: 20) {
                 // 上部: トロフィー＆スコア
@@ -37,8 +51,8 @@ struct ResultPhoneView: View {
                             .fill(
                                 LinearGradient(
                                     gradient: Gradient(colors: [
-                                        Color(red: 1.0, green: 0.88, blue: 0.25),
-                                        Color(red: 1.0, green: 0.65, blue: 0.15)
+                                        Color(red: 1.0, green: 0.85, blue: 0.3),
+                                        Color(red: 0.95, green: 0.65, blue: 0.2)
                                     ]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -47,14 +61,24 @@ struct ResultPhoneView: View {
                             .frame(width: 100, height: 100)
                             .overlay(
                                 Circle()
-                                    .stroke(Color.white.opacity(0.6), lineWidth: 4)
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.8),
+                                                Color(red: 1.0, green: 0.9, blue: 0.5).opacity(0.6)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 3
+                                    )
                             )
-                            .shadow(color: Color.yellow.opacity(0.7), radius: 20, x: 0, y: 8)
+                            .shadow(color: Color(red: 1.0, green: 0.7, blue: 0.2).opacity(0.5), radius: 25, x: 0, y: 10)
 
                         Image(systemName: "trophy.fill")
                             .font(.system(size: 50))
                             .foregroundColor(.white)
-                            .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 2)
+                            .shadow(color: Color(red: 0.8, green: 0.5, blue: 0.1).opacity(0.4), radius: 4, x: 0, y: 3)
                     }
                     .scaleEffect(isAnimating ? 1.15 : 1.0)
                     .animation(
@@ -66,29 +90,64 @@ struct ResultPhoneView: View {
                     // 右: スコア情報（メインコンテンツ）
                     VStack(alignment: .center, spacing: 6) {
                         Text("GAME Complete!")
-                            .font(.system(size: 32, weight: .bold, design: .rounded))
-                            .foregroundColor(.blue.opacity(0.8))
-                            .tracking(2)
-                            .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+                            .font(.system(size: 30, weight: .black, design: .rounded))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.2, green: 0.5, blue: 0.95),
+                                        Color(red: 0.35, green: 0.25, blue: 0.75)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .tracking(2.2)
+                            .shadow(color: Color(red: 0.3, green: 0.5, blue: 0.9).opacity(0.5), radius: 5, x: 0, y: 3)
+                            .overlay(
+                                Text("GAME Complete!")
+                                    .font(.system(size: 30, weight: .black, design: .rounded))
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.4),
+                                                Color.clear
+                                            ],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                                    .tracking(2.2)
+                                    .blendMode(.overlay)
+                            )
                         
-                        HStack(alignment: .firstTextBaseline, spacing: 16) {
+                        HStack(alignment: .firstTextBaseline, spacing: 22) {
                             Text("\(animatedScore)")
                                 .font(.system(size: 60, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(red: 0.9, green: 0.4, blue: 0.1))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.95, green: 0.5, blue: 0.15),
+                                            Color(red: 0.85, green: 0.35, blue: 0.1)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                                 .contentTransition(.numericText(countsDown: false))
                                 .animation(.spring(response: 0.4, dampingFraction: 0.9), value: animatedScore)
                                 .scaleEffect(isAnimating ? 1.2 : 1.0)
                                 .animation(.bouncy(duration: 2.0, extraBounce: 0.7).repeatForever(autoreverses: false), value: isAnimating)
+                                .shadow(color: Color(red: 0.9, green: 0.4, blue: 0.1).opacity(0.3), radius: 4, x: 0, y: 3)
 
                             Text("pts")
                                 .font(.system(size: 18, weight: .bold, design: .rounded))
-                                .foregroundColor(.white.opacity(0.85))
+                                .foregroundColor(.black)
                                 .offset(y: -10)
                         }
                         
                         Text(evaluationMessage)
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
-                            .foregroundColor(.white.opacity(0.9))
+                            .font(.system(size: 24, weight: .medium, design: .rounded))
+                            .foregroundColor(Color(red: 0.35, green: 0.45, blue: 0.6))
                             .lineLimit(1)
                     }
                     .frame(minWidth: 280)
@@ -102,8 +161,8 @@ struct ResultPhoneView: View {
                     }
                 } label: {
                     HStack(spacing: 10) {
-                        Image(systemName: "house.circle.fill")
-                            .font(.system(size: 28))
+                        Image(systemName: "house.fill")
+                            .font(.system(size: 26))
                             .foregroundColor(.white)
                         
                         Text("BACK TO HOME")
@@ -117,8 +176,8 @@ struct ResultPhoneView: View {
                             .fill(
                                 LinearGradient(
                                     gradient: Gradient(colors: [
-                                        Color(red: 0.48, green: 0.68, blue: 1.0),
-                                        Color(red: 0.58, green: 0.38, blue: 0.95)
+                                        Color(red: 0.35, green: 0.55, blue: 0.85),
+                                        Color(red: 0.45, green: 0.35, blue: 0.75)
                                     ]),
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -129,7 +188,7 @@ struct ResultPhoneView: View {
                                     .fill(
                                         LinearGradient(
                                             colors: [
-                                                Color.white.opacity(0.4),
+                                                Color.white.opacity(0.35),
                                                 Color.clear
                                             ],
                                             startPoint: .top,
@@ -139,9 +198,19 @@ struct ResultPhoneView: View {
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white.opacity(0.5), lineWidth: 2)
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.6),
+                                                Color(red: 0.6, green: 0.7, blue: 0.9).opacity(0.4)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 2
+                                    )
                             )
-                            .shadow(color: .blue.opacity(0.7), radius: 20, x: 0, y: 10)
+                            .shadow(color: Color(red: 0.35, green: 0.45, blue: 0.75).opacity(0.5), radius: 20, x: 0, y: 10)
                     )
                 }
                 .buttonStyle(ScaleButtonStyle())
@@ -193,7 +262,7 @@ struct ResultPhoneView: View {
         case 11...19:
             return "🎉 Incredible!! 🎉"
         case 20...:
-            return "Used cheat…？？?"
+            return "Why? Used cheat…？？?"
         default:
             return "Finished!"
         }

@@ -112,6 +112,7 @@
       }
     },
     "Game Complete!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -122,6 +123,9 @@
       }
     },
     "GAME Complete!" : {
+
+    },
+    "GAME Finished!" : {
 
     },
     "How?" : {
@@ -392,6 +396,7 @@
       }
     },
     "Your Score" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {

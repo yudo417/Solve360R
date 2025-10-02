@@ -244,13 +244,7 @@ struct homeView:View{
 }
 
 // カスタムボタンスタイル
-struct ScaleButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
-    }
-}
+
 
 
 enum Screen: Hashable {
@@ -333,8 +327,13 @@ struct ContentView: View {
                         }
                     }
                 case .result:
-                    ResultView(vm:vm,path:$path)
-                        .navigationBarBackButtonHidden()
+                    if IsUtils.isPhone{
+                        ResultPhoneView(vm: vm, path: $path)
+                            .navigationBarBackButtonHidden()
+                    }else{
+                        ResultView(vm:vm,path:$path)
+                            .navigationBarBackButtonHidden()
+                    }
                 }
             }
 
