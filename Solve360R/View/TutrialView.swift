@@ -153,7 +153,7 @@ private extension TutrialViewPad {
     var step2: some View {
         TutorialPage(
             title: "step2.title",
-            image: Image("ex4"),
+            image: Image("ex5"),
             description: "step2.description",
         )
     }

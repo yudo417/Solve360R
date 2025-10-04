@@ -41,13 +41,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Point your device at a flat surface such as a desk"
+            "value" : "Point your device at a sufficiently large flat surface such as a desk or floor"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "端末を机などの平面に向けてください"
+            "state" : "translated",
+            "value" : "端末を机や床などの十分に広い平面に向けてください"
           }
         }
       }
@@ -240,13 +240,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Find a flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection."
+            "value" : "Find a sufficiently large flat surface like a desk in a well-lit area. Point your device's camera at the surface to begin detection. If that doesn't work, you can also try detecting on the floor."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "明るい場所で机などの平らな面を見つけてください\nデバイスのカメラをその面に向け，平面の検出を行います"
+            "state" : "needs_review",
+            "value" : "明るい場所で机などの平らで”十分に広い”平面を見つけてください\nデバイスのカメラをその面に向け，平面の検出を行います\n上手くいかない場合は床でも検出が可能です"
           }
         }
       }

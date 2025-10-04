@@ -23,7 +23,7 @@ struct TutrialPhoneView: View {
 
                         PhoneTutorialPage(
                             title: "step2.title",
-                            imageName: "ex4",
+                            imageName: "ex5",
                             description: "step2.description"
                         ).tag(1)
 
