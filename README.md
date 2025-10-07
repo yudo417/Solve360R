@@ -14,6 +14,11 @@ App Storeからダウンロードはこちら
 
 **Solve360R** は，拡張現実（AR）技術を使った革新的な数学パズルゲームです.
 
+
+https://github.com/user-attachments/assets/f536d1d4-3e79-4921-8070-135da224712e
+
+
+
 ## 🎯 遊び方 / How to Play
 
 1. アプリを起動し，平らな床面をデバイスで認識させます
